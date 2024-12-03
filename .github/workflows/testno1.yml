@@ -39,6 +39,6 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@v4   # This action deploys the content to GitHub Pages
         with:
           branch: main  # Change 'gh-pages' to 'main' to deploy to the 'main' branch instead of 'gh-pages'
-          folder: build/html  # This should be the folder where Sphinx outputs the HTML files (usually '_build/html')
+          folder: docs/build/html  # This should be the folder where Sphinx outputs the HTML files (usually '_build/html')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # No change needed here; this is automatically provided by GitHub Actions
