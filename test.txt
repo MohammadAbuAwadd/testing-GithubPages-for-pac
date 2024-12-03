@@ -1,0 +1,88 @@
+Usage
+=====
+
+.. _installation:
+
+Installation
+------------
+
+To use Lumache, first install it using pip:
+
+.. code-block:: console
+
+   (.venv) $ pip install lumache
+
+
+
+.. .. autofunction:: pyProject.core
+
+.. automodule:: pyProject.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+
+    Attributes
+    ----------
+    
+    grn : pandas.DataFrame
+        A dataframe describing the gene regulatory network (GRN), where:
+        - 'Target Gene': Names of the target genes (str).
+        - Co-activators: Co-activators for each target gene (list of str).
+        - Co-repressors: Co-repressors for each target gene (list of str).
+        - Estimated coefficients: Numerical values estimating the effect of co-activators and co-repressors on the target gene expression (float).
+    
+    grn_info : dict
+        Metadata for the gene regulatory network (GRN). This dictionary can include information such as:
+        - Network description, version, or any other relevant data about the GRN.
+    
+    adjacencyList : dict of dicts
+        A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene, and the corresponding value is another dictionary describing its interactions with other genes.
+        For example:
+        {
+            'GeneA': {'GeneB': weight, 'GeneC': weight},
+            'GeneB': {'GeneA': weight}
+        }
+        The value 'weight' denotes the strength or type of the interaction between genes.
+    
+    bygene : dict of dicts
+        A dictionary where each key is a target gene, and its corresponding value is another dictionary with:
+        - 'act': Set of activators (transcription factors or other genes) that activate the target gene.
+        - 'rep': Set of repressors that repress the target gene.
+        Example:
+        {
+            'GeneA': {'act': {'TF1', 'TF2'}, 'rep': {'TF3'}},
+            'GeneB': {'act': {'TF4'}, 'rep': {'TF5'}}
+        }
+
+    bytf : dict of dicts
+        A dictionary where each key is a transcription factor (TF), and its corresponding value is another dictionary with:
+        - 'act': Set of genes activated by this transcription factor.
+        - 'rep': Set of genes repressed by this transcription factor.
+        Example:
+        {
+            'TF1': {'act': {'GeneA', 'GeneC'}, 'rep': {'GeneB'}},
+            'TF2': {'act': {'GeneA'}, 'rep': {'GeneD'}}
+        }
+
+    inferenceParameters : dict
+        A dictionary containing parameters used during the inference process, such as model configurations, thresholds, or algorithm settings. 
+        Example:
+        {
+            'threshold': 0.5,
+            'model': 'Bayesian',
+            'max_iter': 1000
+        }
+
+    coRegulators : pandas.DataFrame
+        A dataframe specifying inferred co-regulators for each pair of genes or transcription factors. This dataframe can include:
+        - 'GeneA': List of co-regulators and their associated measures (e.g., correlation, p-value, etc.).
+        - 'GeneB': List of co-regulators for GeneB.
+        Each row may include statistics like:
+        - Co-regulator: The name of the co-regulator (str).
+        - Measure/Statistic: Numerical values for the measure (float).
+        Example:
+        | GeneA  | GeneB  | Co-regulator | Measure |
+        |--------|--------|--------------|---------|
+        | GeneA  | GeneB  | TF1          | 0.75    |
+        | GeneA  | GeneB  | TF2          | 0.68    |

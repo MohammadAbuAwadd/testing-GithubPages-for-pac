@@ -1,0 +1,731 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>PyHLicorn &#8212; PyHLicron  documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'running';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">PyHLicron  documentation</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="prerequisites.html">
+    Prerequisites
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    PyHLicorn
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="prerequisites.html">
+    Prerequisites
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="installation.html">
+    Installation
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="#">
+    PyHLicorn
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"></div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">PyHLicorn</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="pyhlicorn">
+<h1>PyHLicorn<a class="headerlink" href="#pyhlicorn" title="Link to this heading">#</a></h1>
+<p>After installing all the dependencies and requirements, import the Numerical Expression
+data as well as the gene list as intial paramaters for the HLicorn alogrithm to run. Check … for details for the parametrs and</p>
+<img alt="_images/carbon.png" src="_images/carbon.png" />
+<dl class="py class">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyProject.core.</span></span><span class="sig-name descname"><span class="pre">HLicorn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numerical_expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tf_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete_expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_gene_support</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coreg_support</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_coreg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3333333333333333</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nGRN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'multicore'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joblib_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'loky'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sequential'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linear_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cvlm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/pyProject/core.html#HLicorn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyProject.core.HLicorn" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">CoRegNet</span></code></p>
+<p>Hybrid Learning of Co-operative Regulation Network.</p>
+<p>This function infers a gene regulatory network using hybrid learning techniques by analyzing gene expression data
+and transcription factors.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>numerical_expression</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A numerical matrix containing the expression levels of genes and
+transcription factors. This will be used to infer the network.</p>
+</dd>
+<dt><strong>tf_list</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A list of genes designated as transcription factors (TFs) or regulators.
+This should contain gene names.</p>
+</dd>
+<dt><strong>discrete_expression</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A matrix with the same dimensions, columns, and indices as <cite>numerical_expression</cite>.
+This should only contain values <cite>{-1, 0, 1}</cite>, where:
+- -1 indicates under-expression,
+- 0 indicates no change, and
+- 1 indicates over-expression.</p>
+</dd>
+<dt><strong>gene_list</strong><span class="classifier">pandas.DataFrame or list, optional, default: None</span></dt><dd><p>A list of genes for which regulatory networks should be inferred.
+These genes should appear in the row names of the expression data.
+If not provided, all genes in the row names of the expression data
+that are not in <cite>tf_list</cite> will be used.</p>
+</dd>
+<dt><strong>min_gene_support</strong><span class="classifier">float, optional, default: 0.1</span></dt><dd><p>A value between 0 and 1 indicating the minimum proportion of samples
+in which a gene must have a non-zero discretized expression value
+to be considered for network inference.</p>
+</dd>
+<dt><strong>min_coreg_support</strong><span class="classifier">float, optional, default: 0.1</span></dt><dd><p>A value between 0 and 1 indicating the minimum proportion of samples
+in which a set of co-regulators must share the same non-zero discretized
+expression value to be considered a potential set of co-regulators.</p>
+</dd>
+<dt><strong>max_coreg</strong><span class="classifier">int, optional, default: None</span></dt><dd><p>The maximum size of co-regulator groups to consider.
+Defaults to the number of TFs. Can be reduced to save memory.</p>
+</dd>
+<dt><strong>search_thresh</strong><span class="classifier">float, optional, default: 1/3</span></dt><dd><p>A value between 0 and 1 specifying the minimum proportion of samples
+in which a gene and a set of co-regulators must share the same non-zero
+discretized expression value to be considered co-regulators of the gene.</p>
+</dd>
+<dt><strong>nGRN</strong><span class="classifier">int, optional, default: 100</span></dt><dd><p>The number of gene regulatory networks to infer.</p>
+</dd>
+<dt><strong>parallel</strong><span class="classifier">{‘multicore’, ‘spark’, ‘no’}, optional, default: ‘multicore’</span></dt><dd><p>The parallelization strategy to use. Options are:
+- ‘multicore’: Use multiple cores by joblib.
+- ‘spark’: Use Spark for distributed computation.
+- ‘no’: Do not parallelize.</p>
+</dd>
+<dt><strong>num_cores</strong><span class="classifier">int, optional, default: -1</span></dt><dd><p>The number of CPU cores to use for computation.
+Set to <cite>-1</cite> to use all available cores.</p>
+</dd>
+<dt><strong>joblib_backend</strong><span class="classifier">{‘loky’, ‘multiprocessing’, ‘sequential’, ‘threading’}, optional, default: ‘loky’</span></dt><dd><p>The backend for Joblib parallelization.</p>
+</dd>
+<dt><strong>lr_backend</strong><span class="classifier">{‘loky’, ‘multiprocessing’, ‘sequential’, ‘threading’}, optional, default: ‘sequential’</span></dt><dd><p>The backend for the nested linear regression parallelization.</p>
+</dd>
+<dt><strong>cluster</strong><span class="classifier">SparkSession, optional, default: None</span></dt><dd><p>A Spark session to use for distributed computation.</p>
+</dd>
+<dt><strong>linear_model</strong><span class="classifier">{‘cvlm’, ‘lm’, None}, optional, default: ‘cvlm’</span></dt><dd><p>The linear model to use:
+- ‘cvlm’: Cross-validated linear model.
+- ‘lm’: Ordinary linear model.
+- None: No linear model. GRN returned as default.</p>
+</dd>
+<dt><strong>verbose</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>If <cite>True</cite>, display additional logging information during execution.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>grn</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A dataframe describing the gene regulatory network (GRN), where:
+- ‘Target Gene’ : str</p>
+<blockquote>
+<div><p>Names of the target genes.</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>‘Co-activators’<span class="classifier">list of str</span></dt><dd><p>Co-activators for each target gene.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘Co-repressors’<span class="classifier">list of str</span></dt><dd><p>Co-repressors for each target gene.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘Estimated coefficients’<span class="classifier">float</span></dt><dd><p>Numerical values estimating the effect of co-activators and co-repressors on the target gene expression.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+<dt><strong>grn_info</strong><span class="classifier">dict</span></dt><dd><p>Metadata for the gene regulatory network (GRN). This dictionary can include information such as:
+- Network description, version, or any other relevant data about the GRN.</p>
+</dd>
+<dt><strong>adjacencyList</strong><span class="classifier">dict of dicts</span></dt><dd><p>A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene, and the corresponding value is another dictionary describing its interactions with other genes. For example:
+{</p>
+<blockquote>
+<div><p>‘GeneA’: {‘GeneB’: weight, ‘GeneC’: weight},
+‘GeneB’: {‘GeneA’: weight}</p>
+</div></blockquote>
+<p>}
+The value ‘weight’ denotes the strength or type of the interaction between genes.</p>
+</dd>
+<dt><strong>bygene</strong><span class="classifier">dict of dicts</span></dt><dd><p>A dictionary where each key is a target gene, and its corresponding value is another dictionary with:
+- ‘act’ : set of str</p>
+<blockquote>
+<div><p>Set of activators (transcription factors or other genes) that activate the target gene.</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>‘rep’<span class="classifier">set of str</span></dt><dd><p>Set of repressors that repress the target gene.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Example:
+{</p>
+<blockquote>
+<div><p>‘GeneA’: {‘act’: {‘TF1’, ‘TF2’}, ‘rep’: {‘TF3’}},
+‘GeneB’: {‘act’: {‘TF4’}, ‘rep’: {‘TF5’}}</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+<dt><strong>byt</strong><span class="classifier">dict of dicts</span></dt><dd><p>A dictionary where each key is a transcription factor (TF), and its corresponding value is another dictionary with:
+- ‘act’ : set of str</p>
+<blockquote>
+<div><p>Set of genes activated by this transcription factor.</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>‘rep’<span class="classifier">set of str</span></dt><dd><p>Set of genes repressed by this transcription factor.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Example:
+{</p>
+<blockquote>
+<div><p>‘TF1’: {‘act’: {‘GeneA’, ‘GeneC’}, ‘rep’: {‘GeneB’}},
+‘TF2’: {‘act’: {‘GeneA’}, ‘rep’: {‘GeneD’}}</p>
+</div></blockquote>
+<p>}</p>
+</dd>
+<dt><strong>inferenceParameters</strong><span class="classifier">dict</span></dt><dd><p>A dictionary containing parameters used during the inference process, such as model configurations, thresholds, or algorithm settings. For example:
+{</p>
+<blockquote>
+<div><dl class="simple">
+<dt>‘threshold’<span class="classifier">float</span></dt><dd><p>A threshold value for inference (e.g., 0.5).</p>
+</dd>
+<dt>‘model’<span class="classifier">str</span></dt><dd><p>The model used for inference (e.g., ‘Bayesian’).</p>
+</dd>
+<dt>‘max_iter’<span class="classifier">int</span></dt><dd><p>The maximum number of iterations (e.g., 1000).</p>
+</dd>
+</dl>
+</div></blockquote>
+<p>}</p>
+</dd>
+<dt><strong>coRegulators</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A dataframe specifying inferred co-regulators for each pair of genes or transcription factors. This dataframe can include:
+- ‘GeneA’ : list of str</p>
+<blockquote>
+<div><p>List of co-regulators and their associated measures (e.g., correlation, p-value, etc.).</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>‘GeneB’<span class="classifier">list of str</span></dt><dd><p>List of co-regulators for GeneB.</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Each row may include statistics like:
+- ‘Co-regulator’ : str</p>
+<blockquote>
+<div><p>The name of the co-regulator.</p>
+</div></blockquote>
+<ul class="simple">
+<li><dl class="simple">
+<dt>‘Measure/Statistic’<span class="classifier">float</span></dt><dd><p>Numerical values for the measure (e.g., correlation, p-value).</p>
+</dd>
+</dl>
+</li>
+</ul>
+<p>Example:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p>GeneA</p></td>
+<td><p>GeneB</p></td>
+<td><p>Co-regulator</p></td>
+<td><p>Measure</p></td>
+</tr>
+<tr class="row-even"><td><p>GeneA</p></td>
+<td><p>GeneB</p></td>
+<td><p>TF1</p></td>
+<td><p>0.75</p></td>
+</tr>
+<tr class="row-odd"><td><p>GeneA</p></td>
+<td><p>GeneB</p></td>
+<td><p>TF2</p></td>
+<td><p>0.68</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.get_grn" title="pyProject.core.HLicorn.get_grn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_grn</span></code></a>()</p></td>
+<td><p>Gets saved GRN from the package directory</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.load_grn_json" title="pyProject.core.HLicorn.load_grn_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_grn_json</span></code></a>(file_path)</p></td>
+<td><p>Load GRN from json File</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.save_grn" title="pyProject.core.HLicorn.save_grn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_grn</span></code></a>(file_path[, locally])</p></td>
+<td><p>Save GRN to pickle</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.save_to_json" title="pyProject.core.HLicorn.save_to_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_to_json</span></code></a>(file_path)</p></td>
+<td><p>Save GRN to json file</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Class object</dt><dd><p>The inferred gene regulatory network(s). The format and type of the return value
+is a CoRegNet class object that contains the GRN as well as information</p>
+</dd>
+</dl>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn.get_grn">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_grn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.get_grn" title="Link to this definition">#</a></dt>
+<dd><p>Gets saved GRN from the package directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>GRN</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn.load_grn_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_grn_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.load_grn_json" title="Link to this definition">#</a></dt>
+<dd><p>Load GRN from json File</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – Preferred path to save the file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>GRN</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn.save_grn">
+<span class="sig-name descname"><span class="pre">save_grn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locally</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.save_grn" title="Link to this definition">#</a></dt>
+<dd><p>Save GRN to pickle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Preferred path to save the file.</p></li>
+<li><p><strong>locally</strong> (<em>bool</em><em>, </em><em>optional</em>) – Saves it in package directory. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn.save_to_json">
+<span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.save_to_json" title="Link to this definition">#</a></dt>
+<dd><p>Save GRN to json file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file.</strong> (<em>Preferred path to save the</em>)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="installation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn"><code class="docutils literal notranslate"><span class="pre">HLicorn</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn.get_grn"><code class="docutils literal notranslate"><span class="pre">HLicorn.get_grn</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn.load_grn_json"><code class="docutils literal notranslate"><span class="pre">HLicorn.load_grn_json</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn.save_grn"><code class="docutils literal notranslate"><span class="pre">HLicorn.save_grn</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn.save_to_json"><code class="docutils literal notranslate"><span class="pre">HLicorn.save_to_json</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="_sources/running.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024, Graziella.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

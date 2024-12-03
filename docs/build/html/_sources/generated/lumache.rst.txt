@@ -1,0 +1,13 @@
+﻿lumache
+=======
+
+.. automodule:: lumache
+
+   
+   .. rubric:: Functions
+
+   .. autosummary::
+   
+      core_function
+      get_random_ingredients
+   

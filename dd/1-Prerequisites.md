@@ -13,7 +13,7 @@
 - Creating an evironment with [venv](https://docs.python.org/3/library/venv.html)
 
 
-# Parallel NOTES
+# Parallel notes
 
 - **PySpark Environment:** PySpark is designed for distributed computing and typically runs on clusters. Running PySpark on a standard laptop **``is not recommended due to potential performance issues and resource constraints``**. Proceed with caution if you choose to run it in such an environment.
 
