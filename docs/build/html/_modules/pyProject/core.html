@@ -124,29 +124,8 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../prerequisites.html">
-    Prerequisites
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../installation.html">
-    Installation
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../running.html">
-    PyHLicorn
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../test.html">
-    test
+  <a class="nav-link nav-internal" href="../../files/index.html">
+    Table of Contents
   </a>
 </li>
 
@@ -222,29 +201,8 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../prerequisites.html">
-    Prerequisites
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../installation.html">
-    Installation
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../running.html">
-    PyHLicorn
-  </a>
-</li>
-
-
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../test.html">
-    test
+  <a class="nav-link nav-internal" href="../../files/index.html">
+    Table of Contents
   </a>
 </li>
 
@@ -475,7 +433,7 @@
         
 
 <div class="viewcode-block" id="HLicorn">
-<a class="viewcode-back" href="../../running.html#pyProject.core.HLicorn">[docs]</a>
+<a class="viewcode-back" href="../../files/running.html#pyProject.core.HLicorn">[docs]</a>
 <span class="k">class</span> <span class="nc">HLicorn</span><span class="p">(</span><span class="n">CoRegNet</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Hybrid Learning of Co-operative Regulation Network.</span>
@@ -496,10 +454,10 @@
 <span class="sd">    discrete_expression : pandas.DataFrame</span>
 <span class="sd">        A matrix with the same dimensions, columns, and indices as `numerical_expression`. </span>
 <span class="sd">        This should only contain values `{-1, 0, 1}`, where:</span>
-<span class="sd">        - -1 indicates under-expression,</span>
-<span class="sd">        - 0 indicates no change, and </span>
-<span class="sd">        - 1 indicates over-expression.</span>
-
+<span class="sd">            - -1 indicates under-expression,</span>
+<span class="sd">            - 0 indicates no change, and </span>
+<span class="sd">            - 1 indicates over-expression.</span>
+<span class="sd">    </span>
 <span class="sd">    gene_list : pandas.DataFrame or list, optional, default: None</span>
 <span class="sd">        A list of genes for which regulatory networks should be inferred. </span>
 <span class="sd">        These genes should appear in the row names of the expression data. </span>
@@ -530,9 +488,9 @@
 
 <span class="sd">    parallel : {&#39;multicore&#39;, &#39;spark&#39;, &#39;no&#39;}, optional, default: &#39;multicore&#39;</span>
 <span class="sd">        The parallelization strategy to use. Options are:</span>
-<span class="sd">        - &#39;multicore&#39;: Use multiple cores by joblib.</span>
-<span class="sd">        - &#39;spark&#39;: Use Spark for distributed computation.</span>
-<span class="sd">        - &#39;no&#39;: Do not parallelize.</span>
+<span class="sd">            - &#39;multicore&#39;: Use multiple cores by joblib.</span>
+<span class="sd">            - &#39;spark&#39;: Use Spark for distributed computation.</span>
+<span class="sd">            - &#39;no&#39;: Do not parallelize.</span>
 
 <span class="sd">    num_cores : int, optional, default: -1</span>
 <span class="sd">        The number of CPU cores to use for computation. </span>
@@ -549,9 +507,9 @@
 
 <span class="sd">    linear_model : {&#39;cvlm&#39;, &#39;lm&#39;, None}, optional, default: &#39;cvlm&#39;</span>
 <span class="sd">        The linear model to use:</span>
-<span class="sd">        - &#39;cvlm&#39;: Cross-validated linear model.</span>
-<span class="sd">        - &#39;lm&#39;: Ordinary linear model.</span>
-<span class="sd">        - None: No linear model. GRN returned as default.</span>
+<span class="sd">            - &#39;cvlm&#39;: Cross-validated linear model.</span>
+<span class="sd">            - &#39;lm&#39;: Ordinary linear model.</span>
+<span class="sd">            - None: No linear model. GRN returned as default.</span>
 
 <span class="sd">    verbose : bool, optional, default: False</span>
 <span class="sd">        If `True`, display additional logging information during execution.</span>
@@ -566,82 +524,86 @@
 <span class="sd">    ----------</span>
 <span class="sd">    grn : pandas.DataFrame</span>
 <span class="sd">        A dataframe describing the gene regulatory network (GRN), where:</span>
-<span class="sd">        - &#39;Target Gene&#39; : str</span>
-<span class="sd">            Names of the target genes.</span>
-<span class="sd">        - &#39;Co-activators&#39; : list of str</span>
-<span class="sd">            Co-activators for each target gene.</span>
-<span class="sd">        - &#39;Co-repressors&#39; : list of str</span>
-<span class="sd">            Co-repressors for each target gene.</span>
-<span class="sd">        - &#39;Estimated coefficients&#39; : float</span>
-<span class="sd">            Numerical values estimating the effect of co-activators and co-repressors on the target gene expression.</span>
-
+<span class="sd">            </span>
+<span class="sd">            - &#39;Target Gene&#39; : str</span>
+<span class="sd">                Names of the target genes.</span>
+<span class="sd">            - &#39;Co-act&#39; : list of str</span>
+<span class="sd">                Co-activators for each target gene.</span>
+<span class="sd">            - &#39;Co-rep&#39; : list of str</span>
+<span class="sd">                Co-repressors for each target gene.</span>
+<span class="sd">            - &#39;Coef.Acts&#39; : list of floats</span>
+<span class="sd">                Coefficient for each Activators.</span>
+<span class="sd">            - &#39;Coef.Reps&#39; : list of floats</span>
+<span class="sd">                Coefficient for each Repressors.</span>
+<span class="sd">            - &#39;Coef.coActs&#39; : list of floats</span>
+<span class="sd">                Coefficient for each Co-activators.</span>
+<span class="sd">            - &#39;Coef.coReps&#39; : list of floats</span>
+<span class="sd">                Coefficient for each Co-repressors.</span>
+<span class="sd">            - &#39;R2&#39; : float #NOTE</span>
+<span class="sd">                Coefficient of determination (R2) of the network for the target gene </span>
+<span class="sd">            - &#39;RMSE&#39; : float</span>
+<span class="sd">                The root-mean-square-error (RMSE) of the network for the target gene </span>
+<span class="sd">                </span>
 <span class="sd">    grn_info : dict</span>
 <span class="sd">        Metadata for the gene regulatory network (GRN). This dictionary can include information such as:</span>
-<span class="sd">        - Network description, version, or any other relevant data about the GRN.</span>
+<span class="sd">        </span>
+<span class="sd">            - {&#39;gene_list&#39; : len(gene_list), &#39;tf_list&#39;: len(tf_list), &#39;co_regs&#39; : len(co_regs) }</span>
 
 <span class="sd">    adjacencyList : dict of dicts</span>
 <span class="sd">        A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene, and the corresponding value is another dictionary describing its interactions with other genes. For example:</span>
-<span class="sd">        {</span>
-<span class="sd">            &#39;GeneA&#39;: {&#39;GeneB&#39;: weight, &#39;GeneC&#39;: weight},</span>
-<span class="sd">            &#39;GeneB&#39;: {&#39;GeneA&#39;: weight}</span>
-<span class="sd">        }</span>
-<span class="sd">        The value &#39;weight&#39; denotes the strength or type of the interaction between genes.</span>
+<span class="sd">            -&#39;bygene&#39;: {},</span>
+<span class="sd">            -&#39;bytf&#39;: {}</span>
+<span class="sd">           </span>
 
 <span class="sd">    bygene : dict of dicts</span>
 <span class="sd">        A dictionary where each key is a target gene, and its corresponding value is another dictionary with:</span>
-<span class="sd">        - &#39;act&#39; : set of str</span>
-<span class="sd">            Set of activators (transcription factors or other genes) that activate the target gene.</span>
-<span class="sd">        - &#39;rep&#39; : set of str</span>
-<span class="sd">            Set of repressors that repress the target gene.</span>
-<span class="sd">        Example:</span>
-<span class="sd">        {</span>
-<span class="sd">            &#39;GeneA&#39;: {&#39;act&#39;: {&#39;TF1&#39;, &#39;TF2&#39;}, &#39;rep&#39;: {&#39;TF3&#39;}},</span>
-<span class="sd">            &#39;GeneB&#39;: {&#39;act&#39;: {&#39;TF4&#39;}, &#39;rep&#39;: {&#39;TF5&#39;}}</span>
-<span class="sd">        }</span>
+<span class="sd">            - &#39;act&#39; : set of str</span>
+<span class="sd">                Set of activators (transcription factors or other genes) that activate the target gene.</span>
+<span class="sd">            - &#39;rep&#39; : set of str</span>
+<span class="sd">                Set of repressors that repress the target gene.</span>
 
-<span class="sd">    byt : dict of dicts</span>
+<span class="sd">    bytf : dict of dicts</span>
 <span class="sd">        A dictionary where each key is a transcription factor (TF), and its corresponding value is another dictionary with:</span>
-<span class="sd">        - &#39;act&#39; : set of str</span>
-<span class="sd">            Set of genes activated by this transcription factor.</span>
-<span class="sd">        - &#39;rep&#39; : set of str</span>
-<span class="sd">            Set of genes repressed by this transcription factor.</span>
-<span class="sd">        Example:</span>
-<span class="sd">        {</span>
-<span class="sd">            &#39;TF1&#39;: {&#39;act&#39;: {&#39;GeneA&#39;, &#39;GeneC&#39;}, &#39;rep&#39;: {&#39;GeneB&#39;}},</span>
-<span class="sd">            &#39;TF2&#39;: {&#39;act&#39;: {&#39;GeneA&#39;}, &#39;rep&#39;: {&#39;GeneD&#39;}}</span>
-<span class="sd">        }</span>
+<span class="sd">            - &#39;act&#39; : set of str    </span>
+<span class="sd">                Set of genes activated by this transcription factor.</span>
+<span class="sd">            - &#39;rep&#39; : set of str</span>
+<span class="sd">                Set of genes repressed by this transcription factor.</span>
 
 <span class="sd">    inferenceParameters : dict</span>
-<span class="sd">        A dictionary containing parameters used during the inference process, such as model configurations, thresholds, or algorithm settings. For example:</span>
-<span class="sd">        {</span>
-<span class="sd">            &#39;threshold&#39; : float</span>
-<span class="sd">                A threshold value for inference (e.g., 0.5).</span>
-<span class="sd">            &#39;model&#39; : str</span>
-<span class="sd">                The model used for inference (e.g., &#39;Bayesian&#39;).</span>
-<span class="sd">            &#39;max_iter&#39; : int</span>
-<span class="sd">                The maximum number of iterations (e.g., 1000).</span>
-<span class="sd">        }</span>
+<span class="sd">        A dictionary containing parameters used during the inference process. For example:</span>
+<span class="sd">        </span>
+<span class="sd">                {</span>
+<span class="sd">                &#39;min_gene_support&#39;:min_gene_support, </span>
+<span class="sd">                &#39;min_coreg_support&#39;:min_coreg_support,</span>
+<span class="sd">                &#39;max_coreg&#39;:max_coreg,</span>
+<span class="sd">                &#39;search_thresh&#39;:search_thresh,</span>
+<span class="sd">                &#39;nGRN&#39;:nGRN</span>
+<span class="sd">                }</span>
 
 <span class="sd">    coRegulators : pandas.DataFrame</span>
 <span class="sd">        A dataframe specifying inferred co-regulators for each pair of genes or transcription factors. This dataframe can include:</span>
-<span class="sd">        - &#39;GeneA&#39; : list of str</span>
-<span class="sd">            List of co-regulators and their associated measures (e.g., correlation, p-value, etc.).</span>
-<span class="sd">        - &#39;GeneB&#39; : list of str</span>
-<span class="sd">            List of co-regulators for GeneB.</span>
-<span class="sd">        Each row may include statistics like:</span>
-<span class="sd">        - &#39;Co-regulator&#39; : str</span>
-<span class="sd">            The name of the co-regulator.</span>
-<span class="sd">        - &#39;Measure/Statistic&#39; : float</span>
-<span class="sd">            Numerical values for the measure (e.g., correlation, p-value).</span>
-<span class="sd">        Example:</span>
 <span class="sd">        </span>
-<span class="sd">        +--------+--------+--------------+---------+</span>
-<span class="sd">        | GeneA  | GeneB  | Co-regulator | Measure |</span>
-<span class="sd">        +--------+--------+--------------+---------+</span>
-<span class="sd">        | GeneA  | GeneB  | TF1          | 0.75    |</span>
-<span class="sd">        +--------+--------+--------------+---------+</span>
-<span class="sd">        | GeneA  | GeneB  | TF2          | 0.68    |</span>
-<span class="sd">        +--------+--------+--------------+---------+</span>
+<span class="sd">            - &#39;Reg1&#39; : str</span>
+<span class="sd">                Regulator One</span>
+<span class="sd">            - &#39;Reg2&#39; : str</span>
+<span class="sd">                Regulator Two</span>
+<span class="sd">            - &#39;support&#39; : float</span>
+<span class="sd">                The name of the co-regulator.</span>
+<span class="sd">            - &#39;nGRN&#39; : float</span>
+<span class="sd">                Numerical values for the measure (e.g., correlation, p-value).</span>
+<span class="sd">            - &#39;fisherTest&#39; : float</span>
+<span class="sd">                Numerical values for the measure (e.g., correlation, p-value).</span>
+<span class="sd">            - &#39;adjustedPvalue&#39; : float</span>
+<span class="sd">                Numerical values for the measure (e.g., correlation, p-value).</span>
+<span class="sd">        Example:</span>
+<span class="sd">    </span>
+<span class="sd">        +--------+--------+---------+-------+------------+----------------+</span>
+<span class="sd">        | Reg1   | Reg2   | Support | nGRN  | fisherTest | adjustedPvalue |</span>
+<span class="sd">        +--------+--------+---------+-------+------------+----------------+</span>
+<span class="sd">        | GeneA  | GeneB  | float   | float | float      | float          |</span>
+<span class="sd">        +--------+--------+---------+-------+------------+----------------+</span>
+<span class="sd">        | GeneA  | GeneB  | float   | float | float      | float          |</span>
+<span class="sd">        +--------+--------+---------+-------+------------+----------------+</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>

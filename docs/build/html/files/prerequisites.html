@@ -6,8 +6,9 @@
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Overview: module code &#8212; PyHLicron  documentation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Prerequisites &#8212; PyHLicron  documentation</title>
   
   
   
@@ -42,9 +43,11 @@
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/index';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'files/prerequisites';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Table of Contents" href="index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -123,8 +126,8 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../files/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Table of Contents
   </a>
 </li>
@@ -172,6 +175,10 @@
   
 
   
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
 </div>
 
     </header>
@@ -182,10 +189,8 @@
       
       
       
-        
-      
       <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -200,8 +205,8 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../files/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
     Table of Contents
   </a>
 </li>
@@ -227,6 +232,20 @@
       </div>
     
   </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Prerequisites</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running.html">PyHLicorn</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
@@ -258,7 +277,10 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Overview: module code</span></li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Table of Contents</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Prerequisites</span></li>
   </ul>
 </nav>
 </div>
@@ -275,9 +297,45 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <h1>All modules for which code is available</h1>
-<ul><li><a href="pyProject/core.html">pyProject.core</a></li>
+  <section id="prerequisites">
+<span id="id1"></span><h1>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">#</a></h1>
+<section id="requirements">
+<span id="id2"></span><h2>Requirements:<a class="headerlink" href="#requirements" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>Python 3.10.x</p></li>
+<li><p><a class="reference external" href="https://www.python.org">Pip</a></p></li>
+<li><p>Java 8/11/17 for running <a class="reference external" href="https://spark.apache.org/docs/3.5.2/#:~:text=Spark%20runs%20on%20Java%208,%2B%2C%20and%20R%203.5%2B.">Apache Spark</a> , we recommend using <a class="reference external" href="https://www.java.com/en/download/help/java8.html">Java 8</a></p></li>
 </ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<dl class="simple">
+<dt>It is advised to create a new python evironment spesifically for this package to avoid issues with dependencies:</dt><dd><ul class="simple">
+<li><p>Creating an evironment with <a class="reference external" href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html">conda</a></p></li>
+<li><p>Creating an evironment with <a class="reference external" href="https://docs.python.org/3/library/venv.html">venv</a></p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</section>
+<section id="running-on-parallel">
+<span id="parallel"></span><h2>Running on Parallel<a class="headerlink" href="#running-on-parallel" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><strong>PySpark Environment:</strong> PySpark is designed for distributed computing
+and typically runs on clusters. Running PySpark on a standard laptop
+<strong>is not recommended due to potential performance issues and resource
+constraints</strong>. Proceed with caution if you choose to run it in such an
+environment.</p></li>
+<li><p><strong>Core Allocation and n_jobs Parameter:</strong> When using PySpark, if you do
+not explicitly assign num_cores to 1, it may cause <cite>n_jobs</cite> in joblib to
+be set to <cite>-1</cite>. This behavior can lead to unintended parallel processing
+and potential performance degradation. To avoid this issue, ensure that
+you specify the number of <cite>cores</cite> to be used appropriately when
+configuring A Spark Session.</p></li>
+<li><p><strong>Backend joblib Parameter:</strong></p></li>
+</ul>
+</section>
+</section>
+
 
                 </article>
               
@@ -288,12 +346,58 @@
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Table of Contents</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="installation.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Requirements:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#running-on-parallel">Running on Parallel</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+
+  <div class="tocsection sourcelink">
+    <a href="../_sources/files/prerequisites.rst.txt">
+      <i class="fa-solid fa-file-lines"></i> Show Source
+    </a>
+  </div>
+</div>
+
+</div></div>
               
             
           </div>

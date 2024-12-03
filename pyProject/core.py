@@ -171,10 +171,10 @@ class HLicorn(CoRegNet):
     discrete_expression : pandas.DataFrame
         A matrix with the same dimensions, columns, and indices as `numerical_expression`. 
         This should only contain values `{-1, 0, 1}`, where:
-        - -1 indicates under-expression,
-        - 0 indicates no change, and 
-        - 1 indicates over-expression.
-
+            - -1 indicates under-expression,
+            - 0 indicates no change, and 
+            - 1 indicates over-expression.
+    
     gene_list : pandas.DataFrame or list, optional, default: None
         A list of genes for which regulatory networks should be inferred. 
         These genes should appear in the row names of the expression data. 
@@ -205,9 +205,9 @@ class HLicorn(CoRegNet):
 
     parallel : {'multicore', 'spark', 'no'}, optional, default: 'multicore'
         The parallelization strategy to use. Options are:
-        - 'multicore': Use multiple cores by joblib.
-        - 'spark': Use Spark for distributed computation.
-        - 'no': Do not parallelize.
+            - 'multicore': Use multiple cores by joblib.
+            - 'spark': Use Spark for distributed computation.
+            - 'no': Do not parallelize.
 
     num_cores : int, optional, default: -1
         The number of CPU cores to use for computation. 
@@ -224,9 +224,9 @@ class HLicorn(CoRegNet):
 
     linear_model : {'cvlm', 'lm', None}, optional, default: 'cvlm'
         The linear model to use:
-        - 'cvlm': Cross-validated linear model.
-        - 'lm': Ordinary linear model.
-        - None: No linear model. GRN returned as default.
+            - 'cvlm': Cross-validated linear model.
+            - 'lm': Ordinary linear model.
+            - None: No linear model. GRN returned as default.
 
     verbose : bool, optional, default: False
         If `True`, display additional logging information during execution.
@@ -241,82 +241,86 @@ class HLicorn(CoRegNet):
     ----------
     grn : pandas.DataFrame
         A dataframe describing the gene regulatory network (GRN), where:
-        - 'Target Gene' : str
-            Names of the target genes.
-        - 'Co-activators' : list of str
-            Co-activators for each target gene.
-        - 'Co-repressors' : list of str
-            Co-repressors for each target gene.
-        - 'Estimated coefficients' : float
-            Numerical values estimating the effect of co-activators and co-repressors on the target gene expression.
-
+            
+            - 'Target Gene' : str
+                Names of the target genes.
+            - 'Co-act' : list of str
+                Co-activators for each target gene.
+            - 'Co-rep' : list of str
+                Co-repressors for each target gene.
+            - 'Coef.Acts' : list of floats
+                Coefficient for each Activators.
+            - 'Coef.Reps' : list of floats
+                Coefficient for each Repressors.
+            - 'Coef.coActs' : list of floats
+                Coefficient for each Co-activators.
+            - 'Coef.coReps' : list of floats
+                Coefficient for each Co-repressors.
+            - 'R2' : float #NOTE
+                Coefficient of determination (R2) of the network for the target gene 
+            - 'RMSE' : float
+                The root-mean-square-error (RMSE) of the network for the target gene 
+                
     grn_info : dict
         Metadata for the gene regulatory network (GRN). This dictionary can include information such as:
-        - Network description, version, or any other relevant data about the GRN.
+        
+            - {'gene_list' : len(gene_list), 'tf_list': len(tf_list), 'co_regs' : len(co_regs) }
 
     adjacencyList : dict of dicts
         A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene, and the corresponding value is another dictionary describing its interactions with other genes. For example:
-        {
-            'GeneA': {'GeneB': weight, 'GeneC': weight},
-            'GeneB': {'GeneA': weight}
-        }
-        The value 'weight' denotes the strength or type of the interaction between genes.
+            -'bygene': {},
+            -'bytf': {}
+           
 
     bygene : dict of dicts
         A dictionary where each key is a target gene, and its corresponding value is another dictionary with:
-        - 'act' : set of str
-            Set of activators (transcription factors or other genes) that activate the target gene.
-        - 'rep' : set of str
-            Set of repressors that repress the target gene.
-        Example:
-        {
-            'GeneA': {'act': {'TF1', 'TF2'}, 'rep': {'TF3'}},
-            'GeneB': {'act': {'TF4'}, 'rep': {'TF5'}}
-        }
+            - 'act' : set of str
+                Set of activators (transcription factors or other genes) that activate the target gene.
+            - 'rep' : set of str
+                Set of repressors that repress the target gene.
 
-    byt : dict of dicts
+    bytf : dict of dicts
         A dictionary where each key is a transcription factor (TF), and its corresponding value is another dictionary with:
-        - 'act' : set of str
-            Set of genes activated by this transcription factor.
-        - 'rep' : set of str
-            Set of genes repressed by this transcription factor.
-        Example:
-        {
-            'TF1': {'act': {'GeneA', 'GeneC'}, 'rep': {'GeneB'}},
-            'TF2': {'act': {'GeneA'}, 'rep': {'GeneD'}}
-        }
+            - 'act' : set of str    
+                Set of genes activated by this transcription factor.
+            - 'rep' : set of str
+                Set of genes repressed by this transcription factor.
 
     inferenceParameters : dict
-        A dictionary containing parameters used during the inference process, such as model configurations, thresholds, or algorithm settings. For example:
-        {
-            'threshold' : float
-                A threshold value for inference (e.g., 0.5).
-            'model' : str
-                The model used for inference (e.g., 'Bayesian').
-            'max_iter' : int
-                The maximum number of iterations (e.g., 1000).
-        }
+        A dictionary containing parameters used during the inference process. For example:
+        
+                {
+                'min_gene_support':min_gene_support, 
+                'min_coreg_support':min_coreg_support,
+                'max_coreg':max_coreg,
+                'search_thresh':search_thresh,
+                'nGRN':nGRN
+                }
 
     coRegulators : pandas.DataFrame
         A dataframe specifying inferred co-regulators for each pair of genes or transcription factors. This dataframe can include:
-        - 'GeneA' : list of str
-            List of co-regulators and their associated measures (e.g., correlation, p-value, etc.).
-        - 'GeneB' : list of str
-            List of co-regulators for GeneB.
-        Each row may include statistics like:
-        - 'Co-regulator' : str
-            The name of the co-regulator.
-        - 'Measure/Statistic' : float
-            Numerical values for the measure (e.g., correlation, p-value).
-        Example:
         
-        +--------+--------+--------------+---------+
-        | GeneA  | GeneB  | Co-regulator | Measure |
-        +--------+--------+--------------+---------+
-        | GeneA  | GeneB  | TF1          | 0.75    |
-        +--------+--------+--------------+---------+
-        | GeneA  | GeneB  | TF2          | 0.68    |
-        +--------+--------+--------------+---------+
+            - 'Reg1' : str
+                Regulator One
+            - 'Reg2' : str
+                Regulator Two
+            - 'support' : float
+                The name of the co-regulator.
+            - 'nGRN' : float
+                Numerical values for the measure (e.g., correlation, p-value).
+            - 'fisherTest' : float
+                Numerical values for the measure (e.g., correlation, p-value).
+            - 'adjustedPvalue' : float
+                Numerical values for the measure (e.g., correlation, p-value).
+        Example:
+    
+        +--------+--------+---------+-------+------------+----------------+
+        | Reg1   | Reg2   | Support | nGRN  | fisherTest | adjustedPvalue |
+        +--------+--------+---------+-------+------------+----------------+
+        | GeneA  | GeneB  | float   | float | float      | float          |
+        +--------+--------+---------+-------+------------+----------------+
+        | GeneA  | GeneB  | float   | float | float      | float          |
+        +--------+--------+---------+-------+------------+----------------+
     """
     
     def __init__(
