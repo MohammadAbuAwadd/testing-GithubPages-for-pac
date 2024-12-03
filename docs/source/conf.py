@@ -31,6 +31,7 @@ extensions = [
     'sphinx_design',
     'numpydoc',
     'sphinx.ext.todo',
+    'sphinx.ext.githubpages',
 ]
 
 # -- Options for HTML output -------------------------------------------------

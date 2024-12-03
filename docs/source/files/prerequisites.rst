@@ -1,8 +1,10 @@
 .. _prerequisites:
+
 Prerequisites
 =============
 
 .. _requirements:
+
 Requirements:
 -------------
 - Python 3.10.x
@@ -16,6 +18,7 @@ Requirements:
 
 
 .. _parallel:
+
 Running on Parallel
 -------------------
 - **PySpark Environment:** PySpark is designed for distributed computing 
