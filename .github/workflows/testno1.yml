@@ -1,135 +1,43 @@
-# # # This is a basic workflow to help you get started with Actions
-# # # test2
-# # name: Build-sphinx-docs
-
-# # # Controls when the workflow will run
-# # on:
-# #   # Triggers the workflow on push or pull request events but only for the main branch
-# #   push:
-# #     branches: [ main ]
-# #   pull_request:
-# #     branches: [ main ]
-
-# #   # Allows you to run this workflow manually from the Actions tab
-# #   workflow_dispatch:
-
-# # # A workflow run is made up of one or more jobs that can run sequentially or in parallel
-# # jobs: 
-# #   # This workflow contains a single job called "build"
-# #   build: 
-# #     # The type of runner that the job will run on
-# #     runs-on: ubuntu-latest
-
-# #     # Steps represent a sequence of tasks that will be executed as part of the job
-# #     steps:
-# #       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-# #       - uses: actions/checkout@v2
-
-# #       - name: Set up Python 3.10
-# #         uses: actions/setup-python@v2
-# #         with:
-# #            python-version: "3.10"
-# #       # Runs a single command using the runners shell
-# #       - name: Run a one-line script
-# #         run: echo Hello, world!
-        
-# #       - name: Install dependencies
-# #         run: | 
-# #           python -m pip install --upgrade pip
-# #           pip install -r requirements.txt
-# #       - name: Install ghp-import
-# #         run: |
-# #           python -m pip install ghp-import
-# #       - name: Build HTML
-# #         run: | 
-# #           cd docs/
-# #           make html
-# #       - name: Run ghp-import
-# #         run: | 
-# #           ghp-import -n -p -f docs/build/html
-
-# #       # Runs a set of commands using the runners shell
-# #       - name: Run a multi-line script
-# #         run: |
-# #           echo Add other actions to build,
-# #           echo test, and deploy your project.
-
-# name: Build-sphinx-docs
-
-# on:
-#   push:
-#     branches: [ main ]  # Change to 'main' if that's your default branch
-#   pull_request:
-#     branches: [ main ]  # Change to 'main' if that's your default branch
-#   workflow_dispatch:
-
-# jobs:
-#   build:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Check out repository
-#         uses: actions/checkout@v2
-
-#       - name: Set up Python 3.10
-#         uses: actions/setup-python@v2
-#         with:
-#           python-version: "3.10"
-
-#       - name: Install dependencies
-#         run: |
-#           python -m pip install --upgrade pip
-#           python -m pip install -r requirements.txt
-
-#       - name: Build HTML
-#         run: |
-#           cd docs/
-#           make html
-
-#       - name: Deploy to GitHub Pages
-#         uses: peaceiris/actions-gh-pages@v3
-#         with:
-#           github_token: ${{ secrets.GITHUB_TOKEN }}  # Uses the default GitHub token for authentication
-#           publish_dir: docs/build/html  # Directory to deploy to GitHub Pages (change if necessary)
-#           publish_branch: main  # The branch to push to
-#           user_name: github-actions[bot]  # Optional, specify a commit user name
-#           user_email: github-actions[bot]@users.noreply.github.com  # Optional, specify a commit email
-
-name: GitHub Pages
+name: Build and Deploy Sphinx Documentation to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # Set a branch name to trigger deployment
+      - main  # Trigger on pushes to 'main'
   pull_request:
+    branches:
+      - main  # Trigger on pull requests targeting 'main'
 
 jobs:
-  deploy:
-    runs-on: ubuntu-22.04
-    permissions:
-      contents: write
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
+  build:
+    runs-on: ubuntu-latest  # You can change the OS if needed. Example: 'macos-latest', 'windows-latest'
+
     steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
+      - name: Checkout the repository
+        uses: actions/checkout@v3  # This action checks out your code. Usually, no change needed.
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
-          hugo-version: '0.110.0'
+          python-version: '3.8'  # Change '3.8' to the version of Python you want to use (e.g., '3.9', '3.10')
 
-      - name: Build
-        run: hugo --minify
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt  # Make sure you have a 'requirements.txt' or install the required packages directly below
 
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        # If you're changing the branch from main,
-        # also change the `main` in `refs/heads/main`
-        # below accordingly.
-        if: ${{ github.ref == 'refs/heads/main' }}
+      - name: Install Sphinx and dependencies
+        run: |
+          pip install sphinx sphinx_rtd_theme  # If you are using other themes or extensions, install them here (e.g., 'sphinxcontrib-mermaid')
+
+      - name: Build the documentation
+        run: |
+          sphinx-build -b html . build/html  # This is the default command for building docs. If you have custom paths, adjust here.
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4   # This action deploys the content to GitHub Pages
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          branch: main  # Change 'gh-pages' to 'main' to deploy to the 'main' branch instead of 'gh-pages'
+          folder: build/html  # This should be the folder where Sphinx outputs the HTML files (usually '_build/html')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # No change needed here; this is automatically provided by GitHub Actions
