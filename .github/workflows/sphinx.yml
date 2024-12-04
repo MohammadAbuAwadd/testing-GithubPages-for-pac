@@ -1,35 +1,38 @@
-name: Sphinx Render docs
+name: Sphinx: Render docs
 
 on:
   push:
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    
+
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout code
+      uses: actions/checkout@v4
 
     # Step to set up Python and install dependencies
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.11'
+        python-version: '3.9'  # Specify version explicitly
 
     - name: Install requirements
       run: |
         python -m pip install --upgrade pip
-        pip install --no-cache-dir -r requirements.txt  # Install from requirements.txt
-        pip freeze  # Check installed packages
+        pip install --no-cache-dir -r requirements.txt
+        pip freeze  # Check if sphinx-design is installed
 
-    # Manually install sphinx-design (if needed)
+    # Explicitly install sphinx-design (if not installed in previous step)
     - name: Install sphinx-design explicitly
       run: pip install sphinx-design
 
     - name: Build HTML
-      uses: ammaraskar/sphinx-action@master
+      uses: ammaraskar/sphinx-action@v1.0.0  # Use a stable version of the action
       with:
         docs-folder: "docs/"
 
