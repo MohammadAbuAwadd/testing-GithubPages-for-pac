@@ -19,7 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-version: '3.9'  # Specify version explicitly
+        python-version: '3.11'  # Specify version explicitly
 
     - name: Install requirements
       run: |
@@ -32,7 +32,7 @@ jobs:
       run: pip install sphinx-design
 
     - name: Build HTML
-      uses: ammaraskar/sphinx-action@v1.0.0  # Use a stable version of the action
+      uses: ammaraskar/sphinx-action@master  # Use a stable version of the action
       with:
         docs-folder: "docs/"
 
