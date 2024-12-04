@@ -29,8 +29,8 @@ extensions = [
     'sphinx.ext.autosummary',
     'sphinx.ext.viewcode',
     # 'sphinx_design',
-    'numpydoc',
-    'sphinx.ext.todo',
+    # 'numpydoc',
+    # 'sphinx.ext.todo',
     'sphinx.ext.githubpages',
 ]
 
