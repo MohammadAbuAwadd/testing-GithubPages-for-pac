@@ -4,5 +4,4 @@ sphinx-design
 numpydoc
 sphinxcontrib-napoleon
 pydata-sphinx-theme
-sphinxcontrib-githubpages
 pandas
