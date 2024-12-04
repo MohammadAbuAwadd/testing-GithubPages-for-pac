@@ -1,5 +1,5 @@
+sphinx==7
 pydata-sphinx-theme
-Sphinx
 sphinx-autobuild
 sphinx-basic-ng
 sphinx_design
