@@ -298,6 +298,344 @@
                   
   <section id="pyhlicorn">
 <h1>PyHLicorn<a class="headerlink" href="#pyhlicorn" title="Permalink to this heading">#</a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">pyProject.core.</span></span><span class="sig-name descname"><span class="pre">HLicorn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">numerical_expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tf_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">discrete_expression</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gene_list</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_gene_support</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">min_coreg_support</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_coreg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">search_thresh</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.3333333333333333</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">nGRN</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parallel</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'multicore'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num_cores</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">-1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">joblib_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'loky'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lr_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'sequential'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cluster</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">linear_model</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'cvlm'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyProject/core.html#HLicorn"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyProject.core.HLicorn" title="Permalink to this definition">#</a></dt>
+<dd><p>Hybrid Learning of Co-operative Regulation Network.</p>
+<p>This function infers a gene regulatory network using hybrid learning techniques by analyzing gene expression data
+and transcription factors.</p>
+<dl class="field-list">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl>
+<dt><strong>numerical_expression</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A numerical matrix containing the expression levels of genes and
+transcription factors. This will be used to infer the network.</p>
+</dd>
+<dt><strong>tf_list</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A list of genes designated as transcription factors (TFs) or regulators.
+This should contain gene names.</p>
+</dd>
+<dt><strong>discrete_expression</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A matrix with the same dimensions, columns, and indices as <cite>numerical_expression</cite>.
+This should only contain values <cite>{-1, 0, 1}</cite>, where:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>-1 indicates under-expression,</p></li>
+<li><p>0 indicates no change, and</p></li>
+<li><p>1 indicates over-expression.</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt><strong>gene_list</strong><span class="classifier">pandas.DataFrame or list, optional, default: None</span></dt><dd><p>A list of genes for which regulatory networks should be inferred.
+These genes should appear in the row names of the expression data.
+If not provided, all genes in the row names of the expression data
+that are not in <cite>tf_list</cite> will be used.</p>
+</dd>
+<dt><strong>min_gene_support</strong><span class="classifier">float, optional, default: 0.1</span></dt><dd><p>A value between 0 and 1 indicating the minimum proportion of samples
+in which a gene must have a non-zero discretized expression value
+to be considered for network inference.</p>
+</dd>
+<dt><strong>min_coreg_support</strong><span class="classifier">float, optional, default: 0.1</span></dt><dd><p>A value between 0 and 1 indicating the minimum proportion of samples
+in which a set of co-regulators must share the same non-zero discretized
+expression value to be considered a potential set of co-regulators.</p>
+</dd>
+<dt><strong>max_coreg</strong><span class="classifier">int, optional, default: None</span></dt><dd><p>The maximum size of co-regulator groups to consider.
+Defaults to the number of TFs. Can be reduced to save memory.</p>
+</dd>
+<dt><strong>search_thresh</strong><span class="classifier">float, optional, default: 1/3</span></dt><dd><p>A value between 0 and 1 specifying the minimum proportion of samples
+in which a gene and a set of co-regulators must share the same non-zero
+discretized expression value to be considered co-regulators of the gene.</p>
+</dd>
+<dt><strong>nGRN</strong><span class="classifier">int, optional, default: 100</span></dt><dd><p>The number of gene regulatory networks to infer.</p>
+</dd>
+<dt><strong>parallel</strong><span class="classifier">{‘multicore’, ‘spark’, ‘no’}, optional, default: ‘multicore’</span></dt><dd><dl class="simple">
+<dt>The parallelization strategy to use. Options are:</dt><dd><ul class="simple">
+<li><p>‘multicore’: Use multiple cores by joblib.</p></li>
+<li><p>‘spark’: Use Spark for distributed computation.</p></li>
+<li><p>‘no’: Do not parallelize.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>num_cores</strong><span class="classifier">int, optional, default: -1</span></dt><dd><p>The number of CPU cores to use for computation.
+Set to <cite>-1</cite> to use all available cores.</p>
+</dd>
+<dt><strong>joblib_backend</strong><span class="classifier">{‘loky’, ‘multiprocessing’, ‘sequential’, ‘threading’}, optional, default: ‘loky’</span></dt><dd><p>The backend for Joblib parallelization.</p>
+</dd>
+<dt><strong>lr_backend</strong><span class="classifier">{‘loky’, ‘multiprocessing’, ‘sequential’, ‘threading’}, optional, default: ‘sequential’</span></dt><dd><p>The backend for the nested linear regression parallelization.</p>
+</dd>
+<dt><strong>cluster</strong><span class="classifier">SparkSession, optional, default: None</span></dt><dd><p>A Spark session to use for distributed computation.</p>
+</dd>
+<dt><strong>linear_model</strong><span class="classifier">{‘cvlm’, ‘lm’, None}, optional, default: ‘cvlm’</span></dt><dd><dl class="simple">
+<dt>The linear model to use:</dt><dd><ul class="simple">
+<li><p>‘cvlm’: Cross-validated linear model.</p></li>
+<li><p>‘lm’: Ordinary linear model.</p></li>
+<li><p>None: No linear model. GRN returned as default.</p></li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>verbose</strong><span class="classifier">bool, optional, default: False</span></dt><dd><p>If <cite>True</cite>, display additional logging information during execution.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Attributes<span class="colon">:</span></dt>
+<dd class="field-even"><dl>
+<dt><strong>grn</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A dataframe describing the gene regulatory network (GRN), where:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>‘Target Gene’<span class="classifier">str</span></dt><dd><p>Names of the target genes.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘Co-act’<span class="classifier">list of str</span></dt><dd><p>Co-activators for each target gene.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘Co-rep’<span class="classifier">list of str</span></dt><dd><p>Co-repressors for each target gene.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘Coef.Acts’<span class="classifier">list of floats</span></dt><dd><p>Coefficient for each Activators.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘Coef.Reps’<span class="classifier">list of floats</span></dt><dd><p>Coefficient for each Repressors.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘Coef.coActs’<span class="classifier">list of floats</span></dt><dd><p>Coefficient for each Co-activators.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘Coef.coReps’<span class="classifier">list of floats</span></dt><dd><p>Coefficient for each Co-repressors.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘R2’<span class="classifier">float #NOTE</span></dt><dd><p>Coefficient of determination (R2) of the network for the target gene</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘RMSE’<span class="classifier">float</span></dt><dd><p>The root-mean-square-error (RMSE) of the network for the target gene</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+</dd>
+<dt><strong>grn_info</strong><span class="classifier">dict</span></dt><dd><p>Metadata for the gene regulatory network (GRN). This dictionary can include information such as:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>{‘gene_list’ : len(gene_list), ‘tf_list’: len(tf_list), ‘co_regs’ : len(co_regs) }</p></li>
+</ul>
+</div></blockquote>
+</dd>
+<dt><strong>adjacencyList</strong><span class="classifier">dict of dicts</span></dt><dd><dl class="simple">
+<dt>A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene, and the corresponding value is another dictionary describing its interactions with other genes. For example:</dt><dd><p>-‘bygene’: {},
+-‘bytf’: {}</p>
+</dd>
+</dl>
+</dd>
+<dt><strong>bygene</strong><span class="classifier">dict of dicts</span></dt><dd><dl class="simple">
+<dt>A dictionary where each key is a target gene, and its corresponding value is another dictionary with:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>‘act’<span class="classifier">set of str</span></dt><dd><p>Set of activators (transcription factors or other genes) that activate the target gene.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘rep’<span class="classifier">set of str</span></dt><dd><p>Set of repressors that repress the target gene.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>bytf</strong><span class="classifier">dict of dicts</span></dt><dd><dl class="simple">
+<dt>A dictionary where each key is a transcription factor (TF), and its corresponding value is another dictionary with:</dt><dd><ul class="simple">
+<li><dl class="simple">
+<dt>‘act’<span class="classifier">set of str</span></dt><dd><p>Set of genes activated by this transcription factor.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘rep’<span class="classifier">set of str</span></dt><dd><p>Set of genes repressed by this transcription factor.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</dd>
+<dt><strong>inferenceParameters</strong><span class="classifier">dict</span></dt><dd><p>A dictionary containing parameters used during the inference process. For example:</p>
+<blockquote>
+<div><p>{
+‘min_gene_support’:min_gene_support,
+‘min_coreg_support’:min_coreg_support,
+‘max_coreg’:max_coreg,
+‘search_thresh’:search_thresh,
+‘nGRN’:nGRN
+}</p>
+</div></blockquote>
+</dd>
+<dt><strong>coRegulators</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A dataframe specifying inferred co-regulators for each pair of genes or transcription factors. This dataframe can include:</p>
+<blockquote>
+<div><ul class="simple">
+<li><dl class="simple">
+<dt>‘Reg1’<span class="classifier">str</span></dt><dd><p>Regulator One</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘Reg2’<span class="classifier">str</span></dt><dd><p>Regulator Two</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘support’<span class="classifier">float</span></dt><dd><p>The name of the co-regulator.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘nGRN’<span class="classifier">float</span></dt><dd><p>Numerical values for the measure (e.g., correlation, p-value).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘fisherTest’<span class="classifier">float</span></dt><dd><p>Numerical values for the measure (e.g., correlation, p-value).</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>‘adjustedPvalue’<span class="classifier">float</span></dt><dd><p>Numerical values for the measure (e.g., correlation, p-value).</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>Example:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p>Reg1</p></td>
+<td><p>Reg2</p></td>
+<td><p>Support</p></td>
+<td><p>nGRN</p></td>
+<td><p>fisherTest</p></td>
+<td><p>adjustedPvalue</p></td>
+</tr>
+<tr class="row-even"><td><p>GeneA</p></td>
+<td><p>GeneB</p></td>
+<td><p>float</p></td>
+<td><p>float</p></td>
+<td><p>float</p></td>
+<td><p>float</p></td>
+</tr>
+<tr class="row-odd"><td><p>GeneA</p></td>
+<td><p>GeneB</p></td>
+<td><p>float</p></td>
+<td><p>float</p></td>
+<td><p>float</p></td>
+<td><p>float</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</dd>
+</dl>
+</dd>
+</dl>
+<p class="rubric">Methods</p>
+<div class="pst-scrollable-table-container"><table class="autosummary longtable table autosummary">
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.get_grn" title="pyProject.core.HLicorn.get_grn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_grn</span></code></a>()</p></td>
+<td><p>Gets saved GRN from the package directory</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.load_grn_json" title="pyProject.core.HLicorn.load_grn_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_grn_json</span></code></a>(file_path)</p></td>
+<td><p>Load GRN from json File</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.save_grn" title="pyProject.core.HLicorn.save_grn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_grn</span></code></a>(file_path[, locally])</p></td>
+<td><p>Save GRN to pickle</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.save_to_json" title="pyProject.core.HLicorn.save_to_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_to_json</span></code></a>(file_path)</p></td>
+<td><p>Save GRN to json file</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt>Class object</dt><dd><p>The inferred gene regulatory network(s). The format and type of the return value
+is a CoRegNet class object that contains the GRN as well as information</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn.get_grn">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">HLicorn.</span></span><span class="sig-name descname"><span class="pre">get_grn</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.get_grn" title="Permalink to this definition">#</a></dt>
+<dd><p>Gets saved GRN from the package directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>GRN</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn.load_grn_json">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">HLicorn.</span></span><span class="sig-name descname"><span class="pre">load_grn_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.load_grn_json" title="Permalink to this definition">#</a></dt>
+<dd><p>Load GRN from json File</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – Preferred path to save the file.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>GRN</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>object</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn.save_grn">
+<span class="sig-prename descclassname"><span class="pre">HLicorn.</span></span><span class="sig-name descname"><span class="pre">save_grn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locally</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.save_grn" title="Permalink to this definition">#</a></dt>
+<dd><p>Save GRN to pickle</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Preferred path to save the file.</p></li>
+<li><p><strong>locally</strong> (<em>bool</em><em>, </em><em>optional</em>) – Saves it in package directory. Defaults to False.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.HLicorn.save_to_json">
+<span class="sig-prename descclassname"><span class="pre">HLicorn.</span></span><span class="sig-name descname"><span class="pre">save_to_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.save_to_json" title="Permalink to this definition">#</a></dt>
+<dd><p>Save GRN to json file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>file.</strong> (<em>Preferred path to save the</em>) – </p>
+</dd>
+</dl>
+</dd></dl>
+
 </section>
 
 
@@ -329,6 +667,24 @@
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn"><code class="docutils literal notranslate"><span class="pre">HLicorn</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn.get_grn"><code class="docutils literal notranslate"><span class="pre">HLicorn.get_grn()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn.load_grn_json"><code class="docutils literal notranslate"><span class="pre">HLicorn.load_grn_json()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn.save_grn"><code class="docutils literal notranslate"><span class="pre">HLicorn.save_grn()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.HLicorn.save_to_json"><code class="docutils literal notranslate"><span class="pre">HLicorn.save_to_json()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
 
