@@ -10,4 +10,7 @@ sphinxcontrib-jsmath
 sphinxcontrib-qthelp
 sphinxcontrib-serializinghtml
 numpydoc
+numpy
+pandas
+pyspark
 
