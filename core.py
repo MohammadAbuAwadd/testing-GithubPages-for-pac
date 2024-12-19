@@ -1,3 +1,21 @@
+"""
+This modules is responsible for the intiating HLicorn
+
+Parent Class: CoRegNet
+    Responisble for running hlicorn and all methods
+
+Client Class: HLicorn
+    For user Paramaters
+
+Methods:
+    save_grn(): 
+    get_grn():
+    save_to_json():
+    load_grn_json()
+"""
+import csv
+
+
 import os
 import pickle
 import json
@@ -11,7 +29,8 @@ from pyspark.sql import SparkSession
 from ._hlicorn import _hlicorn 
 from .modules import _inference_parameters as _inference_parameters
 from .modules import _coregulators as _coregulators
-from .modules import _co_regulatory_net as _co_regulatory_net
+from .modules import _adjacency_list as _adjacency_list
+
 
 class CoRegNet:
     def __init__(
@@ -51,7 +70,7 @@ class CoRegNet:
                 cluster, linear_model, verbose
             )
             
-            self = _co_regulatory_net(self)
+            self = _adjacency_list(self)
             
             self.bygene = self.adjacencyList['bygene']
             self.bytf = self.adjacencyList['bytf']
@@ -59,6 +78,10 @@ class CoRegNet:
             self.inferenceParameters= _inference_parameters(min_gene_support,min_coreg_support,max_coreg,search_thresh,nGRN)
             
             self.coRegulators = _coregulators(self)
+            
+            # Correction for grn 
+            self.grn.drop('Target', axis=1, inplace=True)
+
 
     # Handles pickling
     def __reduce__(self):
@@ -424,7 +447,7 @@ class PreProcess:
         numericalExpression : pd.DataFrame,
         threshold : float | None ,
         refSamples = list| None ,
-        sdBy = 'genes',
+        sdBy = 'genes' | None ,
         center : bool = True
         ):
         """
@@ -483,11 +506,14 @@ class PreProcess:
             sds = np.std(centered, axis=1)
         else:
             sds = np.std(centered, axis=0)
+
     
         if threshold is None:
             threshold = 1
+
         
         standardDeviationThreshold = threshold * sds
+
     
         discretized = np.zeros_like(centered)
         discretized[centered > standardDeviationThreshold] = 1
