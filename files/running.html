@@ -16,8 +16,8 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
+  <!--
+    this give us a css class that will be invisible only if js is disabled
   -->
   <noscript>
     <style>
@@ -27,17 +27,17 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" />
   
   <!-- So that users can add custom icons -->
-  <script src="../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
     <script src="../_static/doctools.js"></script>
@@ -46,6 +46,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'files/running';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Preprocessing" href="pre.html" />
     <link rel="prev" title="Installation" href="installation.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -241,6 +242,7 @@
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">PyHLicorn</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pre.html">Preprocessing</a></li>
 </ul>
 </div>
 </nav></div>
@@ -248,9 +250,14 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -417,7 +424,7 @@ Set to <cite>-1</cite> to use all available cores.</p>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>‘R2’<span class="classifier">float #NOTE</span></dt><dd><p>Coefficient of determination (R2) of the network for the target gene</p>
+<dt>‘R2’<span class="classifier">float</span></dt><dd><p>Coefficient of determination (R2) of the network for the target gene</p>
 </dd>
 </dl>
 </li>
@@ -436,11 +443,8 @@ Set to <cite>-1</cite> to use all available cores.</p>
 </ul>
 </div></blockquote>
 </dd>
-<dt><strong>adjacencyList</strong><span class="classifier">dict of dicts</span></dt><dd><dl class="simple">
-<dt>A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene, and the corresponding value is another dictionary describing its interactions with other genes. For example:</dt><dd><p>-‘bygene’: {},
--‘bytf’: {}</p>
-</dd>
-</dl>
+<dt><strong>adjacencyList</strong><span class="classifier">dict of dicts</span></dt><dd><p>A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene,
+and the corresponding value is another dictionary describing its interactions with other genes. Includes <cite>GRN.bygene</cite> and <cite>GRN.bytf</cite></p>
 </dd>
 <dt><strong>bygene</strong><span class="classifier">dict of dicts</span></dt><dd><dl class="simple">
 <dt>A dictionary where each key is a target gene, and its corresponding value is another dictionary with:</dt><dd><ul class="simple">
@@ -474,16 +478,12 @@ Set to <cite>-1</cite> to use all available cores.</p>
 </dd>
 </dl>
 </dd>
-<dt><strong>inferenceParameters</strong><span class="classifier">dict</span></dt><dd><p>A dictionary containing parameters used during the inference process. For example:</p>
-<blockquote>
-<div><p>{
-‘min_gene_support’:min_gene_support,
-‘min_coreg_support’:min_coreg_support,
-‘max_coreg’:max_coreg,
-‘search_thresh’:search_thresh,
-‘nGRN’:nGRN
-}</p>
-</div></blockquote>
+<dt><strong>inferenceParameters</strong><span class="classifier">dict</span></dt><dd><dl class="simple">
+<dt>A dictionary containing parameters used during the inference process. For example:</dt><dd><ul class="simple">
+<li><p>min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN.</p></li>
+</ul>
+</dd>
+</dl>
 </dd>
 <dt><strong>coRegulators</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A dataframe specifying inferred co-regulators for each pair of genes or transcription factors. This dataframe can include:</p>
 <blockquote>
@@ -504,17 +504,17 @@ Set to <cite>-1</cite> to use all available cores.</p>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>‘nGRN’<span class="classifier">float</span></dt><dd><p>Numerical values for the measure (e.g., correlation, p-value).</p>
+<dt>‘nGRN’<span class="classifier">int</span></dt><dd><p>The number of gene regulatory networks</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>‘fisherTest’<span class="classifier">float</span></dt><dd><p>Numerical values for the measure (e.g., correlation, p-value).</p>
+<dt>‘fisherTest’<span class="classifier">float</span></dt><dd><p>Fisher’s exact test p-value calculated using the <cite>fisher_exact, alternative=’greater’</cite>  function from <cite>scipy.stats</cite>.</p>
 </dd>
 </dl>
 </li>
 <li><dl class="simple">
-<dt>‘adjustedPvalue’<span class="classifier">float</span></dt><dd><p>Numerical values for the measure (e.g., correlation, p-value).</p>
+<dt>‘adjustedPvalue’<span class="classifier">float</span></dt><dd><p>Adjusted p-values calculated using the Holm method from <cite>statsmodels.stats.multitest</cite>.</p>
 </dd>
 </dl>
 </li>
@@ -557,11 +557,17 @@ Set to <cite>-1</cite> to use all available cores.</p>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.get_grn" title="pyProject.core.HLicorn.get_grn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_grn</span></code></a>()</p></td>
 <td><p>Gets saved GRN from the package directory</p></td>
 </tr>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_regulators</span></code>(target_gene)</p></td>
+<td><p>_summary_</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_targets</span></code>(regulator)</p></td>
+<td><p>_summary_</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.load_grn_json" title="pyProject.core.HLicorn.load_grn_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load_grn_json</span></code></a>(file_path)</p></td>
-<td><p>Load GRN from json File</p></td>
+<td><p>Load GRN from json File.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.save_grn" title="pyProject.core.HLicorn.save_grn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_grn</span></code></a>(file_path[, locally])</p></td>
-<td><p>Save GRN to pickle</p></td>
+<td><p>Save GRN to pickle.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#pyProject.core.HLicorn.save_to_json" title="pyProject.core.HLicorn.save_to_json"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save_to_json</span></code></a>(file_path)</p></td>
 <td><p>Save GRN to json file</p></td>
@@ -586,10 +592,9 @@ is a CoRegNet class object that contains the GRN as well as information</p>
 <dd><p>Gets saved GRN from the package directory</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>GRN</p>
-</dd>
-<dt class="field-even">Return type<span class="colon">:</span></dt>
-<dd class="field-even"><p>object</p>
+<dd class="field-odd"><dl class="simple">
+<dt>object: GRN</dt><dd></dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -597,16 +602,19 @@ is a CoRegNet class object that contains the GRN as well as information</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyProject.core.HLicorn.load_grn_json">
 <em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">HLicorn.</span></span><span class="sig-name descname"><span class="pre">load_grn_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.load_grn_json" title="Permalink to this definition">#</a></dt>
-<dd><p>Load GRN from json File</p>
+<dd><p>Load GRN from json File.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file_path</strong> (<em>str</em>) – Preferred path to save the file.</p>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_path</strong><span class="classifier">str</span></dt><dd><p>Preferred path to the JSON file containing the GRN data.</p>
+</dd>
+</dl>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>GRN</p>
+<dd class="field-even"><dl class="simple">
+<dt>object</dt><dd><p>The loaded GRN.</p>
 </dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p>object</p>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -614,13 +622,20 @@ is a CoRegNet class object that contains the GRN as well as information</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="pyProject.core.HLicorn.save_grn">
 <span class="sig-prename descclassname"><span class="pre">HLicorn.</span></span><span class="sig-name descname"><span class="pre">save_grn</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">locally</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyProject.core.HLicorn.save_grn" title="Permalink to this definition">#</a></dt>
-<dd><p>Save GRN to pickle</p>
+<dd><p>Save GRN to pickle.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>file_path</strong> (<em>str</em><em>, </em><em>optional</em>) – Preferred path to save the file.</p></li>
-<li><p><strong>locally</strong> (<em>bool</em><em>, </em><em>optional</em>) – Saves it in package directory. Defaults to False.</p></li>
-</ul>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_path</strong><span class="classifier">str</span></dt><dd><p>Preferred path to save the file.</p>
+</dd>
+<dt><strong>locally</strong><span class="classifier">bool, optional</span></dt><dd><p>If True, save the file in the package directory. Default is False.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>None</dt><dd></dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -631,7 +646,10 @@ is a CoRegNet class object that contains the GRN as well as information</p>
 <dd><p>Save GRN to json file</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>file.</strong> (<em>Preferred path to save the</em>) – </p>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>file_path</strong><span class="classifier">str</span></dt><dd><p>Preferred path to save the file.</p>
+</dd>
+</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -656,6 +674,15 @@ is a CoRegNet class object that contains the GRN as well as information</p>
         <p class="prev-next-subtitle">previous</p>
         <p class="prev-next-title">Installation</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="pre.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Preprocessing</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -687,13 +714,13 @@ is a CoRegNet class object that contains the GRN as well as information</p>
   </nav></div>
 
   <div class="sidebar-secondary-item">
-
-  <div class="tocsection sourcelink">
-    <a href="../_sources/files/running.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/files/running.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
 
 </div></div>
               
@@ -708,8 +735,8 @@ is a CoRegNet class object that contains the GRN as well as information</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -742,7 +769,8 @@ is a CoRegNet class object that contains the GRN as well as information</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.0.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

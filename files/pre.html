@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
 
-    <title>Table of Contents &#8212; PyHLicron  documentation</title>
+    <title>Preprocessing &#8212; PyHLicron  documentation</title>
   
   
   
@@ -43,11 +43,11 @@
     <script src="../_static/doctools.js"></script>
     <script src="../_static/sphinx_highlight.js"></script>
     <script src="../_static/design-tabs.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'files/index';</script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'files/pre';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Prerequisites" href="prerequisites.html" />
-    <link rel="prev" title="PyHLicorn Documentation" href="../index.html" />
+    <link rel="prev" title="PyHLicorn" href="running.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -127,7 +127,7 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
+  <a class="nav-link nav-internal" href="index.html">
     Table of Contents
   </a>
 </li>
@@ -206,7 +206,7 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item current active">
-  <a class="nav-link nav-internal" href="#">
+  <a class="nav-link nav-internal" href="index.html">
     Table of Contents
   </a>
 </li>
@@ -238,11 +238,11 @@
 <nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a></li>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="running.html">PyHLicorn</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pre.html">Preprocessing</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Preprocessing</a></li>
 </ul>
 </div>
 </nav></div>
@@ -283,7 +283,10 @@
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Table of Contents</span></li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Table of Contents</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Preprocessing</span></li>
   </ul>
 </nav>
 </div>
@@ -300,31 +303,97 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="table-of-contents">
-<h1>Table of Contents<a class="headerlink" href="#table-of-contents" title="Permalink to this heading">#</a></h1>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="prerequisites.html">Prerequisites</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="prerequisites.html#requirements">Requirements:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="prerequisites.html#running-on-parallel">Running on Parallel</a></li>
+  <section id="preprocessing">
+<h1>Preprocessing<a class="headerlink" href="#preprocessing" title="Permalink to this heading">#</a></h1>
+<section id="discretization-data">
+<h2>Discretization Data<a class="headerlink" href="#discretization-data" title="Permalink to this heading">#</a></h2>
+<div class="math notranslate nohighlight">
+\[N &lt; \mu - t \times \sigma  \Rightarrow N = -1\]</div>
+<div class="math notranslate nohighlight">
+\[N &gt; \mu + t \times \sigma  \Rightarrow N = 1\]</div>
+<p>Given a continuous log2 gene expression matrix, this function discretizes the expression values into a binary matrix
+based on fold change comparisons. The behavior of the function depends on the input data:</p>
+<ol class="arabic simple">
+<li><p><strong>Negative Values</strong>: If the matrix contains negative values, it is assumed to already be in the correct format.The
+function applies a hard threshold directly to discretize the data.</p></li>
+<li><p><strong>Positive Values</strong>: If the matrix contains only positive values (common in normalized RNA-seq or single-color microarrays),
+the function centers each gene’s expression based on its mean across all samples or the mean of a set of reference samples
+(e.g., normal samples in a study of a specific disease).</p></li>
+</ol>
+<dl class="simple">
+<dt>In either case, a threshold is used to transform the data:</dt><dd><ul class="simple">
+<li><p>For values above or equal to the threshold, the function assigns a value of +1.</p></li>
+<li><p>For values below the negative of the threshold, the function assigns a value of -1.</p></li>
+<li><p>Values within this range are assigned a value of 0.</p></li>
 </ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#using-pip">Using Pip</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html#using-github">Using Github</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="running.html">PyHLicorn</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="running.html#pyProject.core.HLicorn"><code class="docutils literal notranslate"><span class="pre">HLicorn</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pre.html">Preprocessing</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pre.html#discretization-data">Discretization Data</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pre.html#gene-list">Gene List</a></li>
-</ul>
-</li>
-</ul>
-</div>
+</dd>
+</dl>
+<p>By default, the function computes the threshold based on the overall distribution of numerical values in the dataset, rather than using a predefined fold change (such as 1 or 2 corresponding to a two-fold or four-fold increase/decrease). This choice is made to accommodate the variability between different technologies. The decision to use a simple hard fold change threshold or a threshold as a multiplier of the global standard deviation remains flexible.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.PreProcess.discretization">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PreProcess.</span></span><span class="sig-name descname"><span class="pre">discretization</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">threshold</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">refSamples</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">list</span> <span class="pre">|</span> <span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sdBy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'genes'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">center</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyProject/core.html#PreProcess.discretization"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyProject.core.PreProcess.discretization" title="Permalink to this definition">#</a></dt>
+<dd><p>Discretization function for Numerical Expression data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>numericalExpression</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A numerical matrix containing the expression levels of genes and
+transcription factors. This will be used to infer the network.</p>
+</dd>
+<dt><strong>threshold</strong><span class="classifier">float or None</span></dt><dd><p>A numeric value used as a fixed fold-change threshold for discretization.
+Can be None if another thresholding method is used.</p>
+</dd>
+<dt><strong>refSamples</strong><span class="classifier">list or None, optional</span></dt><dd><p>A vector of column names used as a set of reference samples for computing fold changes.
+Can be None if the input data is already centered on reference values (indicated by
+the presence of negative values) or if the mean of each gene should be used
+to center (but not scale) the expression values. Default is None.</p>
+</dd>
+<dt><strong>sdBy</strong><span class="classifier">str or None, optional</span></dt><dd><p>Specifies the level of standard deviation calculation.
+Use <cite>‘genes’</cite> to compute the standard deviation for each gene individually.
+If None, this step is skipped. Default is None.</p>
+</dd>
+<dt><strong>center</strong><span class="classifier">bool, optional</span></dt><dd><p>Whether to center the data. Default is True.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>pd.DataFrame</dt><dd><p>The discretized numerical expression data.</p>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="gene-list">
+<h2>Gene List<a class="headerlink" href="#gene-list" title="Permalink to this heading">#</a></h2>
+<dl class="py method">
+<dt class="sig sig-object py" id="pyProject.core.PreProcess.gene_list">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PreProcess.</span></span><span class="sig-name descname"><span class="pre">gene_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tf_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyProject/core.html#PreProcess.gene_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyProject.core.PreProcess.gene_list" title="Permalink to this definition">#</a></dt>
+<dd><p>A list of genes for which regulatory networks should be inferred.
+These genes should appear in the row names of the expression data.
+If not provided, all genes in the row names of the expression data
+that are not in <cite>tf_list</cite> will be used.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><dl class="simple">
+<dt><strong>numerical_expression</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A numerical matrix containing the expression levels of genes and
+transcription factors. This will be used to infer the network.</p>
+</dd>
+<dt><strong>tf_list</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A list of genes designated as transcription factors (TFs) or regulators.
+This should contain gene names.</p>
+</dd>
+</dl>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><dl class="simple">
+<dt>list</dt><dd></dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 </section>
 
 
@@ -338,22 +407,13 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../index.html"
+       href="running.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">PyHLicorn Documentation</p>
+        <p class="prev-next-title">PyHLicorn</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="prerequisites.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Prerequisites</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -367,10 +427,29 @@
 
 
   <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#discretization-data">Discretization Data</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.PreProcess.discretization"><code class="docutils literal notranslate"><span class="pre">PreProcess.discretization()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gene-list">Gene List</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.PreProcess.gene_list"><code class="docutils literal notranslate"><span class="pre">PreProcess.gene_list()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/files/index.rst.txt"
+      <li><a href="../_sources/files/pre.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

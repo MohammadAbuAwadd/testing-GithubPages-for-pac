@@ -21,3 +21,4 @@ regulate target genes.
    :maxdepth: 2
 
    files/index
+   Documentation/index
