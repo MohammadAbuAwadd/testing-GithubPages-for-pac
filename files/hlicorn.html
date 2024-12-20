@@ -32,7 +32,6 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/toc.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -352,7 +351,7 @@
 and transcription factors.</p>
 <dl class="field-list">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><dl>
+<dd class="field-odd"><dl class="simple">
 <dt><strong>numerical_expression</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A numerical matrix containing the expression levels of genes and
 transcription factors. This will be used to infer the network.</p>
 </dd>
@@ -361,13 +360,11 @@ This should contain gene names.</p>
 </dd>
 <dt><strong>discrete_expression</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A matrix with the same dimensions, columns, and indices as <cite>numerical_expression</cite>.
 This should only contain values <cite>{-1, 0, 1}</cite>, where:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><p>-1 indicates under-expression,</p></li>
 <li><p>0 indicates no change, and</p></li>
 <li><p>1 indicates over-expression.</p></li>
 </ul>
-</div></blockquote>
 </dd>
 <dt><strong>gene_list</strong><span class="classifier">pandas.DataFrame or list, optional, default: None</span></dt><dd><p>A list of genes for which regulatory networks should be inferred.
 These genes should appear in the row names of the expression data.
@@ -425,10 +422,9 @@ Set to <cite>-1</cite> to use all available cores.</p>
 <dt class="field-even">Attributes<span class="colon">:</span></dt>
 <dd class="field-even"><dl>
 <dt><strong>grn</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A dataframe describing the gene regulatory network (GRN), where:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><dl class="simple">
-<dt>‘Target Gene’<span class="classifier">str</span></dt><dd><p>Names of the target genes.</p>
+<dt>‘Target’<span class="classifier">str</span></dt><dd><p>Names of the target genes.</p>
 </dd>
 </dl>
 </li>
@@ -473,14 +469,36 @@ Set to <cite>-1</cite> to use all available cores.</p>
 </dl>
 </li>
 </ul>
-</div></blockquote>
+<p>Example:</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<tbody>
+<tr class="row-odd"><td><p><strong>Target</strong></p></td>
+<td><p><strong>Co-act</strong></p></td>
+<td><p><strong>Co-rep</strong></p></td>
+<td><p><strong>Coef.Reps</strong></p></td>
+<td><p><strong>Coef.coActs</strong></p></td>
+<td><p><strong>Coef.coReps</strong></p></td>
+<td><p><strong>R2</strong></p></td>
+<td><p><strong>RMSE</strong></p></td>
+</tr>
+<tr class="row-even"><td><p>gene</p></td>
+<td><p>[“coact/s”]</p></td>
+<td><p>[“corep/s”]</p></td>
+<td><p>[float]</p></td>
+<td><p>[float/s]</p></td>
+<td><p>[float/s]</p></td>
+<td><p>float</p></td>
+<td><p>float</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </dd>
-<dt><strong>grn_info</strong><span class="classifier">dict</span></dt><dd><p>Metadata for the gene regulatory network (GRN). This dictionary can include information such as:</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>{‘gene_list’ : len(gene_list), ‘tf_list’: len(tf_list), ‘co_regs’ : len(co_regs) }</p></li>
-</ul>
-</div></blockquote>
+<dt><strong>grn_info</strong><span class="classifier">dict</span></dt><dd><dl class="simple">
+<dt>Metadata for the gene regulatory network (GRN). This dictionary can include information such as:</dt><dd><p>Number of target genes, transcription factors and regulatory interactions. Aswell as GRN.inferenceParameters for the GRN
+such as min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN.</p>
+</dd>
+</dl>
 </dd>
 <dt><strong>adjacencyList</strong><span class="classifier">dict of dicts</span></dt><dd><p>A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene,
 and the corresponding value is another dictionary describing its interactions with other genes. Includes <cite>GRN.bygene</cite> and <cite>GRN.bytf</cite></p>
@@ -517,16 +535,11 @@ and the corresponding value is another dictionary describing its interactions wi
 </dd>
 </dl>
 </dd>
-<dt><strong>inferenceParameters</strong><span class="classifier">dict</span></dt><dd><dl class="simple">
-<dt>A dictionary containing parameters used during the inference process. For example:</dt><dd><ul class="simple">
-<li><p>min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN.</p></li>
-</ul>
-</dd>
-</dl>
+<dt><strong>inferenceParameters</strong><span class="classifier">dict</span></dt><dd><p>A dictionary containing parameters used during the inference process. For example:
+- min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN.</p>
 </dd>
 <dt><strong>coRegulators</strong><span class="classifier">pandas.DataFrame</span></dt><dd><p>A dataframe specifying inferred co-regulators for each pair of genes or transcription factors. This dataframe can include:</p>
-<blockquote>
-<div><ul class="simple">
+<ul class="simple">
 <li><dl class="simple">
 <dt>‘Reg1’<span class="classifier">str</span></dt><dd><p>Regulator One</p>
 </dd>
@@ -538,7 +551,7 @@ and the corresponding value is another dictionary describing its interactions wi
 </dl>
 </li>
 <li><dl class="simple">
-<dt>‘support’<span class="classifier">float</span></dt><dd><p>The name of the co-regulator.</p>
+<dt>‘support’<span class="classifier">float</span></dt><dd><p>The support value for both co-regulator.</p>
 </dd>
 </dl>
 </li>
@@ -558,7 +571,6 @@ and the corresponding value is another dictionary describing its interactions wi
 </dl>
 </li>
 </ul>
-</div></blockquote>
 <p>Example:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <tbody>

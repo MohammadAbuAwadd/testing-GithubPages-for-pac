@@ -31,7 +31,6 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../_static/toc.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -354,7 +353,7 @@
 <span class="kn">from</span> <span class="nn">._hlicorn</span> <span class="kn">import</span> <span class="n">_hlicorn</span> 
 <span class="kn">from</span> <span class="nn">.modules</span> <span class="kn">import</span> <span class="n">_inference_parameters</span> <span class="k">as</span> <span class="n">_inference_parameters</span>
 <span class="kn">from</span> <span class="nn">.modules</span> <span class="kn">import</span> <span class="n">_coregulators</span> <span class="k">as</span> <span class="n">_coregulators</span>
-<span class="kn">from</span> <span class="nn">.modules</span> <span class="kn">import</span> <span class="n">_co_regulatory_net</span> <span class="k">as</span> <span class="n">_co_regulatory_net</span>
+<span class="kn">from</span> <span class="nn">.modules</span> <span class="kn">import</span> <span class="n">_adjacency_list</span> <span class="k">as</span> <span class="n">_adjacency_list</span>
 
 <span class="k">class</span> <span class="nc">CoRegNet</span><span class="p">:</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -394,14 +393,33 @@
                 <span class="n">cluster</span><span class="p">,</span> <span class="n">linear_model</span><span class="p">,</span> <span class="n">verbose</span>
             <span class="p">)</span>
             
-            <span class="bp">self</span> <span class="o">=</span> <span class="n">_co_regulatory_net</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="bp">self</span> <span class="o">=</span> <span class="n">_adjacency_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             
             <span class="bp">self</span><span class="o">.</span><span class="n">bygene</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacencyList</span><span class="p">[</span><span class="s1">&#39;bygene&#39;</span><span class="p">]</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">bytf</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adjacencyList</span><span class="p">[</span><span class="s1">&#39;bytf&#39;</span><span class="p">]</span>
             
+            <span class="bp">self</span><span class="o">.</span><span class="n">__interactions</span><span class="p">()</span>
+            
             <span class="bp">self</span><span class="o">.</span><span class="n">inferenceParameters</span><span class="o">=</span> <span class="n">_inference_parameters</span><span class="p">(</span><span class="n">min_gene_support</span><span class="p">,</span><span class="n">min_coreg_support</span><span class="p">,</span><span class="n">max_coreg</span><span class="p">,</span><span class="n">search_thresh</span><span class="p">,</span><span class="n">nGRN</span><span class="p">)</span>
             
             <span class="bp">self</span><span class="o">.</span><span class="n">coRegulators</span> <span class="o">=</span> <span class="n">_coregulators</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            
+            <span class="c1"># Include grn_info as metadata for all info regarding GRN</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grn_info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">inferenceParameters</span><span class="p">)</span>
+            
+            <span class="c1"># Correction for grn </span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">grn</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;Target&#39;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Attribute</span>
+    <span class="k">def</span> <span class="nf">__interactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">interactions</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">targets</span><span class="p">,</span><span class="n">regs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bygene</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">interactions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">regs</span><span class="p">[</span><span class="s1">&#39;act&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">regs</span><span class="p">[</span><span class="s1">&#39;rep&#39;</span><span class="p">]))</span>
+            
+        <span class="k">for</span> <span class="n">targets</span><span class="p">,</span><span class="n">regs</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bytf</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">interactions</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">regs</span><span class="p">[</span><span class="s1">&#39;act&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">regs</span><span class="p">[</span><span class="s1">&#39;rep&#39;</span><span class="p">]))</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">grn_info</span><span class="p">[</span><span class="s1">&#39;interactions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">interactions</span><span class="p">)</span>
 
     <span class="c1"># Handles pickling</span>
     <span class="k">def</span> <span class="nf">__reduce__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -411,6 +429,11 @@
     <span class="c1"># Setting state for pickling</span>
     <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+    
+    <span class="c1"># &quot;63 Transcription Factors.  867 Target Genes.  8072 Regulatory interactions. tf_list&quot;</span>
+    <span class="k">def</span> <span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">grn_info</span><span class="p">[</span><span class="s1">&#39;gene_list&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> Transcription Factors.  </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">grn_info</span><span class="p">[</span><span class="s1">&#39;tf_list&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> Target Genes.  </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">grn_info</span><span class="p">[</span><span class="s1">&#39;interactions&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> Regulatory interactions.&quot;</span>
+
 
     <span class="c1"># Saving GRN as pickle</span>
     <span class="k">def</span> <span class="nf">save_grn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file_path</span> <span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">locally</span> <span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -573,9 +596,7 @@
         <span class="k">return</span> <span class="n">bytf</span><span class="p">[</span><span class="n">regulator</span><span class="p">]</span>
 
 
-    
-    
-        
+
 
 <div class="viewcode-block" id="HLicorn"><a class="viewcode-back" href="../../files/hlicorn.html#pyProject.core.HLicorn">[docs]</a><span class="k">class</span> <span class="nc">HLicorn</span><span class="p">(</span><span class="n">CoRegNet</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -597,9 +618,10 @@
 <span class="sd">    discrete_expression : pandas.DataFrame</span>
 <span class="sd">        A matrix with the same dimensions, columns, and indices as `numerical_expression`. </span>
 <span class="sd">        This should only contain values `{-1, 0, 1}`, where:</span>
-<span class="sd">            - -1 indicates under-expression,</span>
-<span class="sd">            - 0 indicates no change, and </span>
-<span class="sd">            - 1 indicates over-expression.</span>
+<span class="sd">        </span>
+<span class="sd">        - -1 indicates under-expression,</span>
+<span class="sd">        - 0 indicates no change, and </span>
+<span class="sd">        - 1 indicates over-expression.</span>
 <span class="sd">    </span>
 <span class="sd">    gene_list : pandas.DataFrame or list, optional, default: None</span>
 <span class="sd">        A list of genes for which regulatory networks should be inferred. </span>
@@ -668,35 +690,42 @@
 <span class="sd">    grn : pandas.DataFrame</span>
 <span class="sd">        A dataframe describing the gene regulatory network (GRN), where:</span>
 <span class="sd">            </span>
-<span class="sd">            - &#39;Target Gene&#39; : str</span>
-<span class="sd">                Names of the target genes.</span>
-<span class="sd">            - &#39;Co-act&#39; : list of str</span>
-<span class="sd">                Co-activators for each target gene.</span>
-<span class="sd">            - &#39;Co-rep&#39; : list of str</span>
-<span class="sd">                Co-repressors for each target gene.</span>
-<span class="sd">            - &#39;Coef.Acts&#39; : list of floats</span>
-<span class="sd">                Coefficient for each Activators.</span>
-<span class="sd">            - &#39;Coef.Reps&#39; : list of floats</span>
-<span class="sd">                Coefficient for each Repressors.</span>
-<span class="sd">            - &#39;Coef.coActs&#39; : list of floats</span>
-<span class="sd">                Coefficient for each Co-activators.</span>
-<span class="sd">            - &#39;Coef.coReps&#39; : list of floats</span>
-<span class="sd">                Coefficient for each Co-repressors.</span>
-<span class="sd">            - &#39;R2&#39; : float </span>
-<span class="sd">                Coefficient of determination (R2) of the network for the target gene </span>
-<span class="sd">            - &#39;RMSE&#39; : float</span>
-<span class="sd">                The root-mean-square-error (RMSE) of the network for the target gene </span>
-<span class="sd">                </span>
+<span class="sd">        - &#39;Target&#39; : str</span>
+<span class="sd">            Names of the target genes.</span>
+<span class="sd">        - &#39;Co-act&#39; : list of str</span>
+<span class="sd">            Co-activators for each target gene.</span>
+<span class="sd">        - &#39;Co-rep&#39; : list of str</span>
+<span class="sd">            Co-repressors for each target gene.</span>
+<span class="sd">        - &#39;Coef.Acts&#39; : list of floats</span>
+<span class="sd">            Coefficient for each Activators.</span>
+<span class="sd">        - &#39;Coef.Reps&#39; : list of floats</span>
+<span class="sd">            Coefficient for each Repressors.</span>
+<span class="sd">        - &#39;Coef.coActs&#39; : list of floats</span>
+<span class="sd">            Coefficient for each Co-activators.</span>
+<span class="sd">        - &#39;Coef.coReps&#39; : list of floats</span>
+<span class="sd">            Coefficient for each Co-repressors.</span>
+<span class="sd">        - &#39;R2&#39; : float </span>
+<span class="sd">            Coefficient of determination (R2) of the network for the target gene </span>
+<span class="sd">        - &#39;RMSE&#39; : float</span>
+<span class="sd">            The root-mean-square-error (RMSE) of the network for the target gene </span>
+<span class="sd">            </span>
+<span class="sd">        Example:</span>
+<span class="sd">        </span>
+<span class="sd">        +------------+-------------+-------------+----------------+-----------------+-----------------+--------+----------+</span>
+<span class="sd">        | **Target** | **Co-act**  | **Co-rep**  | **Coef.Reps**  | **Coef.coActs** | **Coef.coReps** | **R2** | **RMSE** |</span>
+<span class="sd">        +------------+-------------+-------------+----------------+-----------------+-----------------+--------+----------+</span>
+<span class="sd">        | gene       | [&quot;coact/s&quot;] | [&quot;corep/s&quot;] | [float]        | [float/s]       | [float/s]       | float  | float    |</span>
+<span class="sd">        +------------+-------------+-------------+----------------+-----------------+-----------------+--------+----------+</span>
+
 <span class="sd">    grn_info : dict</span>
 <span class="sd">        Metadata for the gene regulatory network (GRN). This dictionary can include information such as:</span>
-<span class="sd">        </span>
-<span class="sd">            - {&#39;gene_list&#39; : len(gene_list), &#39;tf_list&#39;: len(tf_list), &#39;co_regs&#39; : len(co_regs) }</span>
+<span class="sd">            Number of target genes, transcription factors and regulatory interactions. Aswell as GRN.inferenceParameters for the GRN </span>
+<span class="sd">            such as min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN.</span>
 
 <span class="sd">    adjacencyList : dict of dicts</span>
 <span class="sd">        A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene, </span>
 <span class="sd">        and the corresponding value is another dictionary describing its interactions with other genes. Includes `GRN.bygene` and `GRN.bytf`</span>
 <span class="sd">           </span>
-
 <span class="sd">    bygene : dict of dicts</span>
 <span class="sd">        A dictionary where each key is a target gene, and its corresponding value is another dictionary with:</span>
 <span class="sd">            - &#39;act&#39; : set of str</span>
@@ -713,25 +742,24 @@
 
 <span class="sd">    inferenceParameters : dict</span>
 <span class="sd">        A dictionary containing parameters used during the inference process. For example:</span>
-<span class="sd">            - min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN.</span>
-
+<span class="sd">        - min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN. </span>
 
 <span class="sd">    coRegulators : pandas.DataFrame</span>
 <span class="sd">        A dataframe specifying inferred co-regulators for each pair of genes or transcription factors. This dataframe can include:</span>
-<span class="sd">        </span>
-<span class="sd">            - &#39;Reg1&#39; : str</span>
-<span class="sd">                Regulator One</span>
-<span class="sd">            - &#39;Reg2&#39; : str</span>
-<span class="sd">                Regulator Two</span>
-<span class="sd">            - &#39;support&#39; : float</span>
-<span class="sd">                The name of the co-regulator.</span>
-<span class="sd">            - &#39;nGRN&#39; : int</span>
-<span class="sd">                The number of gene regulatory networks</span>
-<span class="sd">            - &#39;fisherTest&#39; : float</span>
-<span class="sd">                Fisher&#39;s exact test p-value calculated using the `fisher_exact, alternative=&#39;greater&#39;`  function from `scipy.stats`.</span>
-<span class="sd">            - &#39;adjustedPvalue&#39; : float</span>
-<span class="sd">                Adjusted p-values calculated using the Holm method from `statsmodels.stats.multitest`.</span>
-
+<span class="sd">         </span>
+<span class="sd">        - &#39;Reg1&#39; : str</span>
+<span class="sd">            Regulator One</span>
+<span class="sd">        - &#39;Reg2&#39; : str</span>
+<span class="sd">            Regulator Two</span>
+<span class="sd">        - &#39;support&#39; : float</span>
+<span class="sd">            The support value for both co-regulator.</span>
+<span class="sd">        - &#39;nGRN&#39; : int</span>
+<span class="sd">            The number of gene regulatory networks</span>
+<span class="sd">        - &#39;fisherTest&#39; : float</span>
+<span class="sd">            Fisher&#39;s exact test p-value calculated using the `fisher_exact, alternative=&#39;greater&#39;`  function from `scipy.stats`.</span>
+<span class="sd">        - &#39;adjustedPvalue&#39; : float</span>
+<span class="sd">            Adjusted p-values calculated using the Holm method from `statsmodels.stats.multitest`.</span>
+<span class="sd">            </span>
 <span class="sd">        Example:</span>
 <span class="sd">    </span>
 <span class="sd">        +--------+--------+---------+-------+------------+----------------+</span>
@@ -860,8 +888,8 @@
         <span class="k">return</span> <span class="n">discretized</span></div>
 
     <span class="c1"># Get gene list </span>
-<div class="viewcode-block" id="PreProcess.gene_list"><a class="viewcode-back" href="../../files/preprocess.html#pyProject.core.PreProcess.gene_list">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">gene_list</span><span class="p">(</span><span class="n">numerical_expression</span> <span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">tf_list</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+<div class="viewcode-block" id="PreProcess.target_gene_list"><a class="viewcode-back" href="../../files/preprocess.html#pyProject.core.PreProcess.target_gene_list">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">target_gene_list</span><span class="p">(</span><span class="n">numerical_expression</span> <span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">tf_list</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        A list of genes for which regulatory networks should be inferred. </span>
 <span class="sd">        These genes should appear in the row names of the expression data. </span>
@@ -884,9 +912,9 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">num_row_names</span> <span class="o">=</span> <span class="n">numerical_expression</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
         <span class="n">gene_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">num_row_names</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">tf_list</span><span class="p">))</span>
-        <span class="n">gene_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">numerical_expression</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">gene_list</span><span class="p">))</span>
+        <span class="n">target_gene_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">numerical_expression</span><span class="o">.</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">gene_list</span><span class="p">))</span>
         
-        <span class="k">return</span> <span class="n">gene_list</span></div>
+        <span class="k">return</span> <span class="n">target_gene_list</span></div>
 </pre></div>
 
                 </article>

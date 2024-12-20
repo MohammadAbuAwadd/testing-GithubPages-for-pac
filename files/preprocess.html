@@ -32,7 +32,6 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.4cbf315f70debaebd550c87a6162cf0f.min.css" />
-    <link rel="stylesheet" type="text/css" href="../_static/toc.css" />
   
   <!-- So that users can add custom icons -->
   <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
@@ -347,9 +346,20 @@
 <section id="discretization-expression-data-function">
 <span id="discretization"></span><h2>Discretization Expression Data Function<a class="headerlink" href="#discretization-expression-data-function" title="Permalink to this heading">#</a></h2>
 <div class="math notranslate nohighlight">
-\[N &lt; \mu - t \times \sigma  \Rightarrow N = -1\]</div>
-<div class="math notranslate nohighlight">
-\[N &gt; \mu + t \times \sigma  \Rightarrow N = 1\]</div>
+\[\begin{split}\text{de} =
+\begin{cases}
+-1, &amp; \text{ } Ne &lt; \mu - t \cdot \sigma, \\
+\;\; 0, &amp; \text{ } \mu - t \cdot \sigma \leq Ne \leq \mu + t \cdot \sigma, \\
+\;\; 1, &amp; \text{ } Ne &gt; \mu + t \cdot \sigma,
+\end{cases}\end{split}\]</div>
+<p><strong>Definitions:</strong></p>
+<ul class="simple">
+<li><p><strong>de</strong>: Discretized expression data.</p></li>
+<li><p><strong>Ne</strong>: Numerical expression data, serving as the input.</p></li>
+<li><p><strong>μ</strong>: Mean of the numerical expression data, calculated per gene or per entire dataset.</p></li>
+<li><p><strong>σ</strong>: Standard deviation of the numerical expression data, calculated per gene or per entire dataset.</p></li>
+<li><p><strong>t</strong>: Threshold factor.</p></li>
+</ul>
 <p>Given a continuous log2 gene expression matrix, this function discretizes the expression values into a binary matrix
 based on fold change comparisons. The behavior of the function depends on the input data:</p>
 <ol class="arabic simple">
@@ -404,11 +414,11 @@ If None, this step is skipped. Default is None.</p>
 </dd></dl>
 
 </section>
-<section id="gene-list">
-<span id="genelist"></span><h2>Gene List<a class="headerlink" href="#gene-list" title="Permalink to this heading">#</a></h2>
+<section id="target-gene-list">
+<span id="genelist"></span><h2>Target Gene List<a class="headerlink" href="#target-gene-list" title="Permalink to this heading">#</a></h2>
 <dl class="py method">
-<dt class="sig sig-object py" id="pyProject.core.PreProcess.gene_list">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PreProcess.</span></span><span class="sig-name descname"><span class="pre">gene_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tf_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyProject/core.html#PreProcess.gene_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyProject.core.PreProcess.gene_list" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="pyProject.core.PreProcess.target_gene_list">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">PreProcess.</span></span><span class="sig-name descname"><span class="pre">target_gene_list</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tf_list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/pyProject/core.html#PreProcess.target_gene_list"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#pyProject.core.PreProcess.target_gene_list" title="Permalink to this definition">#</a></dt>
 <dd><p>A list of genes for which regulatory networks should be inferred.
 These genes should appear in the row names of the expression data.
 If not provided, all genes in the row names of the expression data
@@ -477,8 +487,8 @@ This should contain gene names.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.PreProcess.discretization"><code class="docutils literal notranslate"><span class="pre">PreProcess.discretization()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gene-list">Gene List</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.PreProcess.gene_list"><code class="docutils literal notranslate"><span class="pre">PreProcess.gene_list()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#target-gene-list">Target Gene List</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pyProject.core.PreProcess.target_gene_list"><code class="docutils literal notranslate"><span class="pre">PreProcess.target_gene_list()</span></code></a></li>
 </ul>
 </li>
 </ul>
