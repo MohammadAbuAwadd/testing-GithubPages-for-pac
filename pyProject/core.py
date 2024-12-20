@@ -11,7 +11,7 @@ from pyspark.sql import SparkSession
 from ._hlicorn import _hlicorn 
 from .modules import _inference_parameters as _inference_parameters
 from .modules import _coregulators as _coregulators
-from .modules import _co_regulatory_net as _co_regulatory_net
+from .modules import _adjacency_list as _adjacency_list
 
 class CoRegNet:
     def __init__(
@@ -51,14 +51,33 @@ class CoRegNet:
                 cluster, linear_model, verbose
             )
             
-            self = _co_regulatory_net(self)
+            self = _adjacency_list(self)
             
             self.bygene = self.adjacencyList['bygene']
             self.bytf = self.adjacencyList['bytf']
             
+            self.__interactions()
+            
             self.inferenceParameters= _inference_parameters(min_gene_support,min_coreg_support,max_coreg,search_thresh,nGRN)
             
             self.coRegulators = _coregulators(self)
+            
+            # Include grn_info as metadata for all info regarding GRN
+            self.grn_info.update(self.inferenceParameters)
+            
+            # Correction for grn 
+            self.grn.drop('Target', axis=1, inplace=True)
+
+    # Attribute
+    def __interactions(self):
+        interactions = []
+        for targets,regs in self.bygene.items():
+            interactions.append(len(regs['act']) + len(regs['rep']))
+            
+        for targets,regs in self.bytf.items():
+            interactions.append(len(regs['act']) + len(regs['rep']))
+        
+        self.grn_info['interactions'] = sum(interactions)
 
     # Handles pickling
     def __reduce__(self):
@@ -68,6 +87,11 @@ class CoRegNet:
     # Setting state for pickling
     def __setstate__(self, state):
         self.__dict__.update(state)
+    
+    # "63 Transcription Factors.  867 Target Genes.  8072 Regulatory interactions. tf_list"
+    def __str__(self):
+        return f"{self.grn_info['gene_list']} Transcription Factors.  {self.grn_info['tf_list']} Target Genes.  {self.grn_info['interactions']} Regulatory interactions."
+
 
     # Saving GRN as pickle
     def save_grn(self, file_path : str, locally : bool = False) -> None:
@@ -230,9 +254,7 @@ class CoRegNet:
         return bytf[regulator]
 
 
-    
-    
-        
+
 
 class HLicorn(CoRegNet):
     """
@@ -254,9 +276,10 @@ class HLicorn(CoRegNet):
     discrete_expression : pandas.DataFrame
         A matrix with the same dimensions, columns, and indices as `numerical_expression`. 
         This should only contain values `{-1, 0, 1}`, where:
-            - -1 indicates under-expression,
-            - 0 indicates no change, and 
-            - 1 indicates over-expression.
+        
+        - -1 indicates under-expression,
+        - 0 indicates no change, and 
+        - 1 indicates over-expression.
     
     gene_list : pandas.DataFrame or list, optional, default: None
         A list of genes for which regulatory networks should be inferred. 
@@ -325,35 +348,42 @@ class HLicorn(CoRegNet):
     grn : pandas.DataFrame
         A dataframe describing the gene regulatory network (GRN), where:
             
-            - 'Target Gene' : str
-                Names of the target genes.
-            - 'Co-act' : list of str
-                Co-activators for each target gene.
-            - 'Co-rep' : list of str
-                Co-repressors for each target gene.
-            - 'Coef.Acts' : list of floats
-                Coefficient for each Activators.
-            - 'Coef.Reps' : list of floats
-                Coefficient for each Repressors.
-            - 'Coef.coActs' : list of floats
-                Coefficient for each Co-activators.
-            - 'Coef.coReps' : list of floats
-                Coefficient for each Co-repressors.
-            - 'R2' : float 
-                Coefficient of determination (R2) of the network for the target gene 
-            - 'RMSE' : float
-                The root-mean-square-error (RMSE) of the network for the target gene 
-                
+        - 'Target' : str
+            Names of the target genes.
+        - 'Co-act' : list of str
+            Co-activators for each target gene.
+        - 'Co-rep' : list of str
+            Co-repressors for each target gene.
+        - 'Coef.Acts' : list of floats
+            Coefficient for each Activators.
+        - 'Coef.Reps' : list of floats
+            Coefficient for each Repressors.
+        - 'Coef.coActs' : list of floats
+            Coefficient for each Co-activators.
+        - 'Coef.coReps' : list of floats
+            Coefficient for each Co-repressors.
+        - 'R2' : float 
+            Coefficient of determination (R2) of the network for the target gene 
+        - 'RMSE' : float
+            The root-mean-square-error (RMSE) of the network for the target gene 
+            
+        Example:
+        
+        +------------+-------------+-------------+----------------+-----------------+-----------------+--------+----------+
+        | **Target** | **Co-act**  | **Co-rep**  | **Coef.Reps**  | **Coef.coActs** | **Coef.coReps** | **R2** | **RMSE** |
+        +------------+-------------+-------------+----------------+-----------------+-----------------+--------+----------+
+        | gene       | ["coact/s"] | ["corep/s"] | [float]        | [float/s]       | [float/s]       | float  | float    |
+        +------------+-------------+-------------+----------------+-----------------+-----------------+--------+----------+
+
     grn_info : dict
         Metadata for the gene regulatory network (GRN). This dictionary can include information such as:
-        
-            - {'gene_list' : len(gene_list), 'tf_list': len(tf_list), 'co_regs' : len(co_regs) }
+            Number of target genes, transcription factors and regulatory interactions. Aswell as GRN.inferenceParameters for the GRN 
+            such as min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN.
 
     adjacencyList : dict of dicts
         A dictionary representing the adjacency list of the GRN. Each key in the outer dictionary corresponds to a gene, 
         and the corresponding value is another dictionary describing its interactions with other genes. Includes `GRN.bygene` and `GRN.bytf`
            
-
     bygene : dict of dicts
         A dictionary where each key is a target gene, and its corresponding value is another dictionary with:
             - 'act' : set of str
@@ -370,25 +400,24 @@ class HLicorn(CoRegNet):
 
     inferenceParameters : dict
         A dictionary containing parameters used during the inference process. For example:
-            - min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN.
-
+        - min_gene_support, min_coreg_support, max_coreg, search_thresh, and nGRN. 
 
     coRegulators : pandas.DataFrame
         A dataframe specifying inferred co-regulators for each pair of genes or transcription factors. This dataframe can include:
-        
-            - 'Reg1' : str
-                Regulator One
-            - 'Reg2' : str
-                Regulator Two
-            - 'support' : float
-                The name of the co-regulator.
-            - 'nGRN' : int
-                The number of gene regulatory networks
-            - 'fisherTest' : float
-                Fisher's exact test p-value calculated using the `fisher_exact, alternative='greater'`  function from `scipy.stats`.
-            - 'adjustedPvalue' : float
-                Adjusted p-values calculated using the Holm method from `statsmodels.stats.multitest`.
-
+         
+        - 'Reg1' : str
+            Regulator One
+        - 'Reg2' : str
+            Regulator Two
+        - 'support' : float
+            The support value for both co-regulator.
+        - 'nGRN' : int
+            The number of gene regulatory networks
+        - 'fisherTest' : float
+            Fisher's exact test p-value calculated using the `fisher_exact, alternative='greater'`  function from `scipy.stats`.
+        - 'adjustedPvalue' : float
+            Adjusted p-values calculated using the Holm method from `statsmodels.stats.multitest`.
+            
         Example:
     
         +--------+--------+---------+-------+------------+----------------+
@@ -518,7 +547,7 @@ class PreProcess:
 
     # Get gene list 
     @classmethod
-    def gene_list(numerical_expression : pd.DataFrame, tf_list: pd.DataFrame):
+    def target_gene_list(numerical_expression : pd.DataFrame, tf_list: pd.DataFrame):
         """
         A list of genes for which regulatory networks should be inferred. 
         These genes should appear in the row names of the expression data. 
@@ -541,6 +570,6 @@ class PreProcess:
         """
         num_row_names = numerical_expression.index.tolist()
         gene_list = list(set(num_row_names) - set(tf_list))
-        gene_list = list(set(numerical_expression.index).intersection(gene_list))
+        target_gene_list = list(set(numerical_expression.index).intersection(gene_list))
         
-        return gene_list
+        return target_gene_list

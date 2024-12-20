@@ -37,10 +37,9 @@ extensions = [
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 templates_path = ['_templates']
-exclude_patterns = []
+exclude_patterns =  []
 html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
-html_css_files = ['toc.css']
 
 
 # -- AUTO Documentation -------------------------------------------------

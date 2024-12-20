@@ -2,6 +2,11 @@ Preprocessing
 =============
 .. N < mean - t x std = - 1
 .. N > mean + t x std = 1
+.. .. math::
+..    N < \mu - t \times \sigma  \Rightarrow N = -1
+.. .. math::
+..    N > \mu + t \times \sigma  \Rightarrow N = 1
+
 
 .. currentmodule:: pyProject.core
 
@@ -11,9 +16,21 @@ Discretization Expression Data Function
 ----------------------------------------
 
 .. math::
-   N < \mu - t \times \sigma  \Rightarrow N = -1
-.. math::
-   N > \mu + t \times \sigma  \Rightarrow N = 1
+
+   \text{de} =
+   \begin{cases}
+   -1, & \text{ } Ne < \mu - t \cdot \sigma, \\
+   \;\; 0, & \text{ } \mu - t \cdot \sigma \leq Ne \leq \mu + t \cdot \sigma, \\
+   \;\; 1, & \text{ } Ne > \mu + t \cdot \sigma,
+   \end{cases}
+
+**Definitions:**
+
+- **de**: Discretized expression data. 
+- **Ne**: Numerical expression data, serving as the input.
+- **μ**: Mean of the numerical expression data, calculated per gene or per entire dataset.
+- **σ**: Standard deviation of the numerical expression data, calculated per gene or per entire dataset.
+- **t**: Threshold factor.
 
 Given a continuous log2 gene expression matrix, this function discretizes the expression values into a binary matrix 
 based on fold change comparisons. The behavior of the function depends on the input data:
@@ -36,9 +53,9 @@ By default, the function computes the threshold based on the overall distributio
 
 .. _genelist:
 
-Gene List
-----------
+Target Gene List
+----------------
 
-.. automethod:: PreProcess.gene_list
+.. automethod:: PreProcess.target_gene_list
 
 
