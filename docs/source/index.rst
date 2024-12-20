@@ -9,16 +9,21 @@ modeled by transcription factors acting in a cooperative manner to synergistical
 regulate target genes.
 
 
-.. Check out the :doc:`usagefile` section for further information, including how to
-.. :ref:`install <installation>` the project.
+.. .. Check out the :doc:`usagefile` section for further information, including how to
+.. .. :ref:`install <installation>` the project.
 
 .. note::
    This project is under active development.
 
 
-
 .. toctree::
    :maxdepth: 2
+   
+   files/prerequisites
+   files/installation
+   files/userguide
+   files/hlicorn
+   files/preprocess
 
-   files/index
-   Documentation/index
+
+  

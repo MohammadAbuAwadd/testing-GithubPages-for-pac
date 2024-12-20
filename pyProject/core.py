@@ -170,15 +170,26 @@ class CoRegNet:
     
     # Data Handling Methods
     
-    def get_regulators(self, target_gene):
-        """_summary_
-
-        Args:
-            target_gene (_type_): _description_
-
-        Returns:
-            _type_: _description_
+    # Regulators Extraction
+    def get_regulators(self, target_gene : str) -> dict:
         """
+        Retrieves regulators for a given target gene from the Gene Regulatory Network (GRN).
+
+        Parameters
+        ----------
+        target_gene : str
+            The name of the target gene for which regulators are to be fetched.
+
+        Returns
+        -------
+        dict
+            A dictionary with two keys:
+            - 'act' : list
+                A list of activators for the target gene.
+            - 'rep' : list
+                A list of repressors for the target gene.
+        """
+
         if not hasattr(self, 'adjacencyList') or 'bygene' not in self.adjacencyList:
             self.adjacency_list()
 
@@ -189,14 +200,24 @@ class CoRegNet:
         
         return bygene[target_gene]
 
-    def get_targets(self, regulator):
-        """_summary_
+    # Regulators Target Genes
+    def get_targets(self, regulator : str)-> dict:
+        """
+        Retrieves the target genes regulated by a specific regulator from the Gene Regulatory Network (GRN).
 
-        Args:
-            regulator (_type_): _description_
+        Parameters
+        ----------
+        regulator : str
+            The name of the regulator (e.g., transcription factor) whose target genes are to be fetched.
 
-        Returns:
-            _type_: _description_
+        Returns
+        -------
+        dict
+            A dictionary with two keys:
+            - 'act' : list
+                A list of target genes activated by the regulator.
+            - 'rep' : list
+                A list of target genes repressed by the regulator.
         """
         if not hasattr(self, 'adjacencyList') or 'bytf' not in self.adjacencyList:
             self.adjacency_list()

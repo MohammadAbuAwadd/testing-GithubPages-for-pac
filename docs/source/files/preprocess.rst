@@ -5,8 +5,10 @@ Preprocessing
 
 .. currentmodule:: pyProject.core
 
-Discretization Data 
---------------------
+.. _discretization:
+
+Discretization Expression Data Function
+----------------------------------------
 
 .. math::
    N < \mu - t \times \sigma  \Rightarrow N = -1
@@ -32,8 +34,10 @@ By default, the function computes the threshold based on the overall distributio
 
 .. automethod:: PreProcess.discretization
 
+.. _genelist:
+
 Gene List
----------
+----------
 
 .. automethod:: PreProcess.gene_list
 

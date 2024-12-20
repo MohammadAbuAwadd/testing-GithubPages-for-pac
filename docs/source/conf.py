@@ -40,8 +40,7 @@ templates_path = ['_templates']
 exclude_patterns = []
 html_theme = 'pydata_sphinx_theme'
 html_static_path = ['_static']
-
-
+html_css_files = ['toc.css']
 
 
 # -- AUTO Documentation -------------------------------------------------
@@ -52,15 +51,11 @@ autodoc_typehints = 'none'
 napoleon_google_docstring = True
 napoleon_numpy_docstring = False
 
-
-
-
-# autosummary_generate = True
-# autodoc_inherit_docstrings = True
-# add_function_parentheses = False
-# autodoc_docstring_signature = True  # Ensures the signature is part of the docstring
-# autodoc_member_order = 'bysource'  # or 'alphabetical'
-# html_theme_options = {
-#     "navigation_depth": 2,  # Controls how deep the section navigation goes
-#     "collapse_navigation": True,  # Set to True if you want collapsible navigation
-# }
+html_sidebars = {
+    '**': [
+        # 'globaltoc.html',  # Global table of contents
+    ],
+    'index': [
+        
+    ],
+}
