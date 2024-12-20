@@ -50,6 +50,10 @@ autodoc_typehints = 'none'
 napoleon_google_docstring = True
 napoleon_numpy_docstring = False
 
+# Remove headache
+numpydoc_show_class_members = False 
+
+
 html_sidebars = {
     '**': [
         # 'globaltoc.html',  # Global table of contents
