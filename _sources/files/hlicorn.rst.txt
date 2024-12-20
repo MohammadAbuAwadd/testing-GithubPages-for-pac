@@ -1,5 +1,7 @@
-PyHLicorn
-=========
+.. _hlicorn:
+
+HLicorn
+=======
 
 .. currentmodule:: pyProject.core
 
